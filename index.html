@@ -1,0 +1,3070 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>SurgeryPrep – OP-Vorbereitung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Basis-Styles, mobile-first -->
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f172a;
+      --bg-soft: #020617;
+      --bg-soft-alt: #020617;
+      --bg-elevated: #020617;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --accent: #06b6d4;
+      --accent-soft: rgba(56, 189, 248, 0.2);
+      --accent-strong: #22c55e;
+      --accent-warn: #f97316;
+      --accent-danger: #ef4444;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --text-softer: #6b7280;
+      --tab-inactive: #64748b;
+      --surface-radius-lg: 22px;
+      --surface-radius-md: 16px;
+      --surface-radius-sm: 999px;
+      --shadow-strong: 0 22px 60px rgba(15, 23, 42, 0.95);
+      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.75);
+      --shadow-border: 0 0 0 1px rgba(148, 163, 184, 0.25);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --transition-fast: 0.16s ease-out;
+    }
+
+    [data-theme="light"] {
+      --bg: #f3f4f6;
+      --bg-soft: #ffffff;
+      --bg-soft-alt: #f9fafb;
+      --bg-elevated: #ffffff;
+      --border-subtle: rgba(156, 163, 175, 0.6);
+      --accent: #0284c7;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-strong: #16a34a;
+      --accent-warn: #ea580c;
+      --accent-danger: #dc2626;
+      --text-main: #0f172a;
+      --text-soft: #4b5563;
+      --text-softer: #6b7280;
+      --tab-inactive: #9ca3af;
+      --shadow-strong: 0 18px 40px rgba(15, 23, 42, 0.20);
+      --shadow-soft: 0 10px 26px rgba(15, 23, 42, 0.16);
+      --shadow-border: 0 0 0 1px rgba(148, 163, 184, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #0b1120 0, var(--bg) 42%, #020617 100%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    #app-root {
+      min-height: 100vh;
+      max-width: 520px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 10px 68px;
+    }
+
+    @media (min-width: 640px) {
+      #app-root {
+        padding: 16px 16px 72px;
+      }
+    }
+
+    .app-shell {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .surface-main {
+      flex: 1;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 52%),
+                  radial-gradient(circle at bottom right, rgba(34,197,94,0.14), transparent 60%),
+                  var(--bg-soft);
+      border-radius: 26px;
+      box-shadow: var(--shadow-strong), var(--shadow-border);
+      padding: 14px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 640px) {
+      .surface-main {
+        border-radius: 26px;
+      }
+    }
+
+    .surface-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      position: relative;
+      background: conic-gradient(from 220deg, #06b6d4 0, #22c55e 40%, #0ea5e9 80%, #06b6d4 100%);
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.9), 0 10px 22px rgba(34,197,94,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo-inner {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 20%, #e0f2fe, #0f172a 52%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #e5e7eb;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text-main {
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-text-sub {
+      font-size: 0.70rem;
+      color: var(--text-soft);
+    }
+
+    .pill-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--text-soft);
+      font-size: 0.70rem;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.75);
+    }
+
+    [data-theme="light"] .pill-meta {
+      background: rgba(248,250,252,0.96);
+      border-color: rgba(148,163,184,0.9);
+    }
+
+    .pill-meta-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+    }
+
+    .pill-meta-critical {
+      background: rgba(127, 29, 29, 0.85);
+      border-color: rgba(248, 113, 113, 0.95);
+      color: #fecaca;
+    }
+
+    [data-theme="light"] .pill-meta-critical {
+      background: rgba(254, 226, 226, 0.96);
+      color: #b91c1c;
+    }
+
+    .pill-meta-critical .pill-meta-dot {
+      background: #f97316;
+      box-shadow: 0 0 0 4px rgba(248, 250, 252, 0.35);
+    }
+
+    .header-sub {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .header-sub-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px 4px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.70rem;
+      color: var(--text-soft);
+    }
+
+    [data-theme="light"] .badge-date {
+      background: rgba(248,250,252,0.98);
+    }
+
+    .badge-date-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 20% 20%, #0ea5e9, #0f172a 65%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      font-size: 0.65rem;
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.5);
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .header-title-main {
+      font-size: 0.96rem;
+      font-weight: 500;
+    }
+
+    .header-title-sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .btn-icon-ghost {
+      border: none;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 0 1px rgba(148,163,184,0.4);
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+    }
+
+    [data-theme="light"] .btn-icon-ghost {
+      background: rgba(248,250,252,0.98);
+    }
+
+    .btn-icon-ghost:active {
+      transform: translateY(1px) scale(0.97);
+      box-shadow: 0 0 0 1px rgba(148,163,184,0.7);
+    }
+
+    .btn-icon-ghost span {
+      display: block;
+      font-size: 1.1rem;
+      transform: translateY(-1px);
+    }
+
+    .section-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 1px 2px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148,163,184,0.9) rgba(15,23,42,0.7);
+    }
+
+    .section-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .section-scroll::-webkit-scrollbar-track {
+      background: rgba(15,23,42,0.8);
+    }
+
+    .section-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.9);
+      border-radius: 999px;
+    }
+
+    [data-theme="light"] .section-scroll::-webkit-scrollbar-track {
+      background: rgba(229, 231, 235, 0.7);
+    }
+
+    [data-theme="light"] .section-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.9);
+    }
+
+    .block {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 52%),
+                  rgba(15,23,42,0.96);
+      border-radius: 20px;
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 12px 12px;
+      margin-bottom: 10px;
+    }
+
+    [data-theme="light"] .block {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.06), transparent 52%),
+                  rgba(255,255,255,0.98);
+    }
+
+    .block-header-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .block-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .block-title-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.09);
+      color: #7dd3fc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+    }
+
+    .block-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .badge-soft {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      padding: 3px 9px;
+      border: 1px solid rgba(148,163,184,0.5);
+    }
+
+    [data-theme="light"] .badge-soft {
+      background: rgba(248,250,252,1);
+    }
+
+    .badge-soft-cta {
+      color: #22c55e;
+      border-color: rgba(34,197,94,0.75);
+      background: rgba(22,163,74,0.09);
+    }
+
+    .badge-soft-danger {
+      color: #fecaca;
+      border-color: rgba(248,113,113,0.9);
+      background: rgba(127,29,29,0.85);
+    }
+
+    [data-theme="light"] .badge-soft-danger {
+      color: #b91c1c;
+      background: rgba(254,226,226,0.98);
+    }
+
+    .badge-soft-neutral {
+      color: var(--text-soft);
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 400px) {
+      .grid-two {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .countdown {
+      padding: 8px 10px 10px;
+      border-radius: 16px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    [data-theme="light"] .countdown {
+      background: rgba(248,250,252,0.98);
+    }
+
+    .countdown-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .countdown-main {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .countdown-number {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .countdown-label {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .countdown-tag {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .countdown-tag strong {
+      color: var(--accent-strong);
+    }
+
+    .countdown-secondary {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      font-size: 0.7rem;
+      border: 1px solid rgba(148,163,184,0.7);
+      color: var(--text-soft);
+    }
+
+    [data-theme="light"] .status-tag {
+      background: rgba(248,250,252,1);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .status-dot-warn {
+      background: #f97316;
+    }
+
+    .status-dot-danger {
+      background: #ef4444;
+    }
+
+    .list-compact {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .task-pill {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: 14px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    [data-theme="light"] .task-pill {
+      background: rgba(249,250,251,0.98);
+    }
+
+    .task-pill:active {
+      transform: translateY(1px);
+      border-color: rgba(56,189,248,0.8);
+    }
+
+    .task-pill-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .task-pill-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .task-pill-meta {
+      font-size: 0.70rem;
+      color: var(--text-soft);
+    }
+
+    .task-pill-meta strong {
+      color: var(--accent);
+    }
+
+    .progress-bar-shell {
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.7);
+      overflow: hidden;
+      margin-top: 4px;
+      border: 1px solid rgba(31,41,55,0.8);
+    }
+
+    [data-theme="light"] .progress-bar-shell {
+      background: rgba(229,231,235,0.9);
+      border-color: rgba(209,213,219,1);
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #22c55e 55%, #a3e635 100%);
+      width: 0%;
+      transition: width 0.25s ease-out;
+    }
+
+    .row-space {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .txt-muted {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+    }
+
+    .btn-inline {
+      border: none;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(8,47,73,0.95);
+      color: #e5e7eb;
+      font-size: 0.72rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(15,23,42,0.7);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    [data-theme="light"] .btn-inline {
+      background: rgba(37,99,235,0.98);
+    }
+
+    .btn-inline:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.85);
+    }
+
+    .btn-inline-secondary {
+      background: rgba(15,23,42,0.95);
+    }
+
+    [data-theme="light"] .btn-inline-secondary {
+      background: rgba(107,114,128,0.98);
+    }
+
+    .btn-inline-secondary span {
+      font-size: 0.95rem;
+    }
+
+    .timeline-filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .segmented {
+      display: inline-flex;
+      padding: 2px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.9);
+    }
+
+    [data-theme="light"] .segmented {
+      background: rgba(248,250,252,1);
+    }
+
+    .segmented button {
+      border: none;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 56px;
+      justify-content: center;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .segmented button span {
+      font-size: 0.8rem;
+    }
+
+    .segmented button.active {
+      background: linear-gradient(135deg, #06b6d4, #22c55e);
+      color: #0b1120;
+      font-weight: 500;
+      box-shadow: 0 10px 24px rgba(8,47,73,0.85);
+      transform: translateY(-1px);
+    }
+
+    .segmented button:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(8,47,73,0.9);
+    }
+
+    .timeline-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .task-card {
+      border-radius: 16px;
+      padding: 8px 9px 8px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.7);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    [data-theme="light"] .task-card {
+      background: rgba(248,250,252,1);
+    }
+
+    .task-phase {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      padding-top: 2px;
+    }
+
+    .task-phase-pill {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      font-size: 0.70rem;
+    }
+
+    [data-theme="light"] .task-phase-pill {
+      background: rgba(248,250,252,1);
+    }
+
+    .task-main {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .task-main-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .task-main-title {
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .task-main-desc {
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .task-main-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .task-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 4px 7px;
+      font-size: 0.70rem;
+      border: 1px solid rgba(148,163,184,0.7);
+      color: var(--text-soft);
+      background: rgba(15,23,42,0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    [data-theme="light"] .chip {
+      background: rgba(248,250,252,1);
+    }
+
+    .chip-primary {
+      border-color: rgba(56,189,248,0.95);
+      color: #7dd3fc;
+      background: rgba(8,47,73,0.95);
+    }
+
+    [data-theme="light"] .chip-primary {
+      background: rgba(219,234,254,1);
+      color: #0369a1;
+    }
+
+    .chip-small-icon {
+      font-size: 0.85rem;
+    }
+
+    .note-badge {
+      color: #facc15;
+    }
+
+    .btn-link {
+      border: none;
+      background: none;
+      color: var(--accent);
+      font-size: 0.72rem;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 0;
+    }
+
+    .text-note {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .muted-helper {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .tabs-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab-pill {
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.95);
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    [data-theme="light"] .tab-pill {
+      background: rgba(248,250,252,1);
+    }
+
+    .tab-pill span {
+      font-size: 0.82rem;
+    }
+
+    .tab-pill.active {
+      background: linear-gradient(135deg, #06b6d4, #22c55e);
+      color: #0b1120;
+      font-weight: 500;
+      box-shadow: 0 10px 26px rgba(8,47,73,0.9);
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    .tab-pill:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.9);
+    }
+
+    .tab-content {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .bullets li {
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .warn-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .warn-item {
+      border-radius: 16px;
+      padding: 7px 9px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.7);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+
+    [data-theme="light"] .warn-item {
+      background: rgba(248,250,252,1);
+    }
+
+    .warn-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(248, 113, 113, 0.2);
+      color: #fecaca;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    [data-theme="light"] .warn-icon {
+      background: rgba(254, 226, 226, 1);
+      color: #b91c1c;
+    }
+
+    .warn-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .warn-title {
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    .warn-text {
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .danger-cta {
+      margin-top: 6px;
+      padding: 7px 9px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #b91c1c, #ef4444);
+      color: #fef2f2;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .danger-cta-icon {
+      font-size: 0.95rem;
+      transform: translateY(1px);
+    }
+
+    .danger-cta-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .danger-cta-title {
+      font-weight: 600;
+    }
+
+    .danger-cta-text {
+      font-size: 0.77rem;
+    }
+
+    .btn-112 {
+      margin-top: 4px;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(248, 250, 252, 0.15);
+      color: #fef2f2;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(15,23,42,0.9);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    .btn-112:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.95);
+    }
+
+    .pack-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .pack-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+
+    .pack-checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.95);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    [data-theme="light"] .pack-checkbox {
+      background: rgba(248,250,252,1);
+    }
+
+    .pack-text {
+      flex: 1;
+      color: var(--text-soft);
+    }
+
+    .pack-text strong {
+      color: var(--text-main);
+    }
+
+    .pack-note {
+      font-size: 0.72rem;
+      color: var(--text-softer);
+      margin-top: 2px;
+    }
+
+    .toolbar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .input-label {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .input-field {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.96);
+      color: var(--text-main);
+      font-size: 0.8rem;
+      padding: 7px 8px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    [data-theme="light"] .input-field {
+      background: rgba(248,250,252,1);
+    }
+
+    .input-field::placeholder {
+      color: var(--text-softer);
+    }
+
+    .input-field:focus {
+      border-color: rgba(56,189,248,0.95);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.9);
+    }
+
+    .input-inline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .input-checkbox {
+      width: 17px;
+      height: 17px;
+    }
+
+    .input-checkbox-label {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .inline-link {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .bottom-nav-shell {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 4px 10px 8px;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .bottom-nav-shell {
+        padding-bottom: 14px;
+      }
+    }
+
+    .bottom-nav {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.8);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.96);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      padding: 4px;
+      gap: 2px;
+      backdrop-filter: blur(18px);
+    }
+
+    [data-theme="light"] .bottom-nav {
+      background: rgba(15,23,42,0.9);
+      border-color: rgba(15,23,42,0.9);
+    }
+
+    .nav-btn {
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--tab-inactive);
+      font-size: 0.7rem;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .nav-btn-icon {
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, #06b6d4, #22c55e);
+      color: #0b1120;
+      font-weight: 500;
+      box-shadow: 0 11px 30px rgba(8,47,73,0.9);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 5px 16px rgba(8,47,73,0.95);
+    }
+
+    .onboarding-shell {
+      min-height: 100vh;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 10px 12px 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .onboarding-shell {
+        padding: 20px 20px 80px;
+      }
+    }
+
+    .onboard-card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.22), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(34,197,94,0.18), transparent 65%),
+                  rgba(15,23,42,0.98);
+      border-radius: 24px;
+      padding: 16px 14px 16px;
+      box-shadow: 0 22px 60px rgba(15,23,42,0.96), 0 0 0 1px rgba(148,163,184,0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="light"] .onboard-card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.11), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(34,197,94,0.12), transparent 65%),
+                  rgba(255,255,255,0.99);
+    }
+
+    .onboard-step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.7);
+      color: var(--text-soft);
+      font-size: 0.72rem;
+      align-self: flex-start;
+    }
+
+    [data-theme="light"] .onboard-step-pill {
+      background: rgba(248,250,252,1);
+    }
+
+    .onboard-step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.35);
+    }
+
+    .onboard-title {
+      font-size: 1.18rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .onboard-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-soft);
+    }
+
+    .onboard-body {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .onboard-actions {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #06b6d4, #22c55e);
+      color: #0b1120;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 16px 40px rgba(8,47,73,0.95);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 8px 18px rgba(8,47,73,1);
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      padding: 8px 14px;
+      background: rgba(15,23,42,0.96);
+      color: var(--text-soft);
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+    }
+
+    [data-theme="light"] .btn-secondary {
+      background: rgba(248,250,252,1);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.9);
+    }
+
+    .small {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    dialog {
+      border: none;
+      border-radius: 18px;
+      padding: 12px 12px 10px;
+      max-width: 440px;
+      width: calc(100% - 32px);
+      background: rgba(15,23,42,0.98);
+      color: var(--text-main);
+      box-shadow: 0 20px 60px rgba(15,23,42,0.98), 0 0 0 1px rgba(148,163,184,0.7);
+    }
+
+    dialog::backdrop {
+      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
+      backdrop-filter: blur(4px);
+    }
+
+    [data-theme="light"] dialog {
+      background: rgba(255,255,255,0.99);
+      box-shadow: 0 20px 60px rgba(15,23,42,0.2), 0 0 0 1px rgba(148,163,184,0.75);
+    }
+
+    .modal-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .modal-body {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .printable {
+      background: #ffffff;
+      color: #111827;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      #app-root {
+        max-width: none;
+        padding: 0;
+      }
+      .surface-main,
+      .onboarding-shell,
+      .bottom-nav-shell {
+        display: none !important;
+      }
+      .print-view {
+        display: block !important;
+        padding: 16px;
+        font-size: 0.9rem;
+        color: #111827;
+      }
+      .print-view h1 {
+        margin-bottom: 8px;
+      }
+      .print-view ul {
+        margin-top: 4px;
+        padding-left: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="app-root" data-theme="dark"></div>
+
+<dialog id="note-dialog">
+  <form method="dialog">
+    <h2 class="modal-title">Notiz zur Aufgabe</h2>
+    <div class="modal-body">
+      <label for="note-text" class="input-label">Kurze Notiz (z.B. „Unterlagen von Hausarzt anfordern“)</label>
+      <textarea id="note-text" class="input-field" rows="3"></textarea>
+      <p class="small" style="margin-top:4px;">
+        Hinweis: Notizen werden nur lokal auf diesem Gerät gespeichert.
+      </p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" onclick="window.SurgeryPrep?.closeNoteDialog(false)">Abbrechen</button>
+      <button type="submit" class="btn-primary" onclick="window.SurgeryPrep?.closeNoteDialog(true)">Speichern</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="print-view" class="print-view" style="display:none"></div>
+
+<script>
+(function () {
+  const storageKeyProfile = 'surgeryPrep.userProfile.v1';
+  const storageKeyTasks = 'surgeryPrep.tasks.v1';
+  const storageKeySettings = 'surgeryPrep.settings.v1';
+  const storageKeyPack = 'surgeryPrep.packlist.v1';
+
+  const state = {
+    userProfile: {
+      opDate: '',
+      opType: 'general',
+      hospitalName: '',
+      hospitalPhone: '',
+      emergencyContact: '',
+      wantsReminders: false,
+      disclaimerAccepted: false,
+      privacyAccepted: false
+    },
+    tasks: [],
+    settings: {
+      theme: 'dark',
+      timelineFilter: 'all',
+      activeTab: 'dashboard',
+      infoTab: 'procedure',
+      onboardingStep: 1
+    },
+    packList: {},
+    lastNoteTaskId: null
+  };
+
+  function loadState() {
+    try {
+      const profileRaw = localStorage.getItem(storageKeyProfile);
+      if (profileRaw) {
+        Object.assign(state.userProfile, JSON.parse(profileRaw));
+      }
+      const tasksRaw = localStorage.getItem(storageKeyTasks);
+      if (tasksRaw) {
+        state.tasks = JSON.parse(tasksRaw);
+      }
+      const settingsRaw = localStorage.getItem(storageKeySettings);
+      if (settingsRaw) {
+        Object.assign(state.settings, JSON.parse(settingsRaw));
+      }
+      const packRaw = localStorage.getItem(storageKeyPack);
+      if (packRaw) {
+        state.packList = JSON.parse(packRaw);
+      }
+    } catch (e) {
+      console.error('Fehler beim Lesen aus localStorage', e);
+    }
+  }
+
+  function saveProfile() {
+    localStorage.setItem(storageKeyProfile, JSON.stringify(state.userProfile));
+  }
+  function saveTasks() {
+    localStorage.setItem(storageKeyTasks, JSON.stringify(state.tasks));
+  }
+  function saveSettings() {
+    localStorage.setItem(storageKeySettings, JSON.stringify(state.settings));
+  }
+  function savePackList() {
+    localStorage.setItem(storageKeyPack, JSON.stringify(state.packList));
+  }
+
+  if (!Date.prototype.toLocalISODate) {
+    Date.prototype.toLocalISODate = function () {
+      const off = this.getTimezoneOffset();
+      const d = new Date(this.getTime() - off * 60 * 1000);
+      return d.toISOString().slice(0, 10);
+    };
+  }
+
+  function daysBetween(todayIso, targetIso) {
+    if (!todayIso || !targetIso) return null;
+    const a = new Date(todayIso + 'T00:00:00');
+    const b = new Date(targetIso + 'T00:00:00');
+    const diffMs = b.getTime() - a.getTime();
+    return Math.round(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  function buildTimelineTemplate(opType) {
+    const template = [];
+    template.push(
+      {
+        id: 'd-14-docs',
+        phase: 'D-14',
+        daysOffset: -14,
+        title: 'Unterlagen sammeln',
+        description: 'Sammeln Sie Einweisung, Vorbefunde und wichtige Arztbriefe in einer Mappe.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-14-meds',
+        phase: 'D-14',
+        daysOffset: -14,
+        title: 'Medikamentenliste aktualisieren',
+        description: 'Notieren Sie alle Medikamente und Allergien. Bringen Sie die Liste zur OP mit.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-7-transport',
+        phase: 'D-7',
+        daysOffset: -7,
+        title: 'Transport organisieren',
+        description: 'Planen Sie Hinweg und Abholung nach der OP. Fragen Sie Angehörige oder Freunde.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-7-questions',
+        phase: 'D-7',
+        daysOffset: -7,
+        title: 'Fragen notieren',
+        description: 'Schreiben Sie offene Fragen zu Ablauf, Risiken oder Nachsorge auf.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-3-home',
+        phase: 'D-3',
+        daysOffset: -3,
+        title: 'Haushalt vorbereiten',
+        description: 'Erledigen Sie wichtige Einkäufe und bereiten Sie einfache Mahlzeiten für die ersten Tage vor.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-1-final',
+        phase: 'D-1',
+        daysOffset: -1,
+        title: 'Letzte Absprachen prüfen',
+        description: 'Kontrollieren Sie Uhrzeit, Station und Nüchternheits-Anweisungen aus den Unterlagen.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd0-arrival',
+        phase: 'OP-Tag',
+        daysOffset: 0,
+        title: 'Pünktlich in der Klinik ankommen',
+        description: 'Planen Sie genug Zeit für die Anreise und eventuelle Verzögerungen ein.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd0-jewelry',
+        phase: 'OP-Tag',
+        daysOffset: 0,
+        title: 'Schmuck und Make-up weglassen',
+        description: 'Kommen Sie ohne Schmuck, Make-up und Nagellack, wenn möglich.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd+1-rest',
+        phase: 'D+1',
+        daysOffset: 1,
+        title: 'Schonung und Beobachtung',
+        description: 'Gönnen Sie sich Ruhe und achten Sie auf Warnzeichen wie starke Schmerzen, Fieber oder Blutung.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd+7-checkup',
+        phase: 'D+7',
+        daysOffset: 7,
+        title: 'Kontrolltermin / Verbandswechsel',
+        description: 'Halten Sie sich an den Nachsorgeplan Ihrer Klinik und erscheinen Sie zu vereinbarten Terminen.',
+        isDone: false,
+        note: ''
+      }
+    );
+
+    const extraTasksByType = getOpSpecificTasks();
+    const extras = extraTasksByType[opType] || extraTasksByType.general || [];
+    template.push(...extras);
+
+    const todayIso = new Date().toLocalISODate();
+    const opDate = state.userProfile.opDate || todayIso;
+    const tasks = template.map(t => {
+      const dueDate = new Date(opDate + 'T00:00:00');
+      dueDate.setDate(dueDate.getDate() + t.daysOffset);
+      return {
+        ...t,
+        dueDate: dueDate.toLocalISODate()
+      };
+    });
+
+    tasks.sort((a, b) => {
+      const da = new Date(a.dueDate);
+      const db = new Date(b.dueDate);
+      if (da.getTime() !== db.getTime()) {
+        return da.getTime() - db.getTime();
+      }
+      if (a.daysOffset !== b.daysOffset) {
+        return a.daysOffset - b.daysOffset;
+      }
+      return a.title.localeCompare(b.title, 'de');
+    });
+
+    return tasks;
+  }
+
+  function getOpSpecificTasks() {
+    return {
+      general: [
+        {
+          id: 'gen-d-3-support',
+          phase: 'D-3',
+          daysOffset: -3,
+          title: 'Unterstützung organisieren',
+          description: 'Überlegen Sie, wer Ihnen nach der OP im Alltag helfen kann (z.B. Einkäufe, Haushalt).',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'gen-d+3-pain',
+          phase: 'D+3',
+          daysOffset: 3,
+          title: 'Schmerzverlauf beobachten',
+          description: 'Achten Sie darauf, ob die Schmerzen eher weniger werden. Bei zunehmenden Schmerzen kontaktieren Sie Ihr Behandlungsteam.',
+          isDone: false,
+          note: ''
+        }
+      ],
+      knee: [
+        {
+          id: 'knee-d-7-home',
+          phase: 'D-7',
+          daysOffset: -7,
+          title: 'Wohnbereich anpassen',
+          description: 'Räumen Sie Stolperfallen weg und bereiten Sie einen gut erreichbaren Ruheplatz vor.',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'knee-d+1-mobility',
+          phase: 'D+1',
+          daysOffset: 1,
+          title: 'Bewegung nach Anweisung',
+          description: 'Bewegen Sie das Bein nur so, wie es das Behandlungsteam empfohlen hat.',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'knee-d+7-physio',
+          phase: 'D+7',
+          daysOffset: 7,
+          title: 'Physiotherapie-Termine prüfen',
+          description: 'Planen Sie frühzeitig Kontroll- und Physiotherapie-Termine nach den Vorgaben der Klinik.',
+          isDone: false,
+          note: ''
+        }
+      ],
+      hernia: [
+        {
+          id: 'hernia-d-3-lift',
+          phase: 'D-3',
+          daysOffset: -3,
+          title: 'Schwere Lasten vermeiden',
+          description: 'Vermeiden Sie schweres Heben bereits einige Tage vor der OP, wenn möglich.',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'hernia-d+1-abdomen',
+          phase: 'D+1',
+          daysOffset: 1,
+          title: 'Bauchbereich schonen',
+          description: 'Bewegen Sie sich vorsichtig und vermeiden Sie starke Bauchpresse, soweit es möglich ist.',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'hernia-d+7-activity',
+          phase: 'D+7',
+          daysOffset: 7,
+          title: 'Alltag langsam steigern',
+          description: 'Steigern Sie die Belastung nur schrittweise, entsprechend der Empfehlung Ihrer Klinik.',
+          isDone: false,
+          note: ''
+        }
+      ],
+      gallbladder: [
+        {
+          id: 'gall-d-3-food',
+          phase: 'D-3',
+          daysOffset: -3,
+          title: 'Leichtere Kost',
+          description: 'Viele Menschen vertragen vor der OP leichtere, fettarme Mahlzeiten besser. Halten Sie sich an die Hinweise Ihrer Klinik.',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'gall-d+1-wound',
+          phase: 'D+1',
+          daysOffset: 1,
+          title: 'Wundbereiche beobachten',
+          description: 'Kontrollieren Sie die kleinen Schnitte auf Rötung, Schwellung oder Nässen.',
+          isDone: false,
+          note: ''
+        },
+        {
+          id: 'gall-d+7-diet',
+          phase: 'D+7',
+          daysOffset: 7,
+          title: 'Ernährung anpassen',
+          description: 'Achten Sie darauf, welche Speisen Sie gut vertragen. Besprechen Sie Fragen zur Ernährung mit Ihrem Behandlungsteam.',
+          isDone: false,
+          note: ''
+        }
+      ]
+    };
+  }
+
+  function getInfoContent() {
+    return {
+      general: {
+        label: 'Allgemein (Standard)',
+        procedure: [
+          'Sie kommen zur vereinbarten Zeit in die Klinik oder Praxis und melden sich an.',
+          'Vor der Operation spricht ein Mitglied des Behandlungsteams mit Ihnen und prüft Ihre Unterlagen.',
+          'Die Narkose oder Betäubung wird mit Ihnen besprochen. Konkrete Mittel und Dosierungen legt Ihr Behandlungsteam fest.',
+          'Nach der OP werden Sie im Aufwachraum überwacht, bis Sie wieder stabil und wach genug sind.',
+          'Wenn es sich um eine ambulante OP handelt, können Sie meist am gleichen Tag mit Begleitperson nach Hause gehen.'
+        ],
+        preparation: [
+          'Lesen Sie die Informationsblätter Ihrer Klinik und halten Sie sich an die dort beschriebenen Anweisungen.',
+          'Klären Sie im Vorgespräch, ob und wann Sie vor der OP nichts mehr essen oder trinken dürfen (Nüchternheit).',
+          'Bringen Sie eine aktuelle Medikamentenliste und Informationen zu Allergien mit.',
+          'Organisieren Sie eine Begleitperson, die Sie nach der OP nach Hause bringt und im Notfall helfen kann.'
+        ],
+        aftercare: [
+          'Planen Sie in den ersten Tagen nach der OP mehr Ruhe ein und vermeiden Sie Überanstrengung.',
+          'Nehmen Sie empfohlene Schmerzmittel nur nach Anweisung Ihres Behandlungsteams ein.',
+          'Achten Sie auf Warnzeichen wie starke Schmerzen, Fieber, Atemnot oder starke Blutung und holen Sie frühzeitig Hilfe.',
+          'Halten Sie die vereinbarten Kontrolltermine ein und bringen Sie Ihre Unterlagen mit.'
+        ],
+        faq: [
+          'Diese App ersetzt keine ärztliche Beratung. Sie soll nur helfen, den Überblick zu behalten.',
+          'Konkrete Anweisungen zu Essen, Trinken und Medikamenten bekommen Sie nur von Ihrem Behandlungsteam.',
+          'Wenn Sie unsicher sind, ob Sie zur OP kommen können (z.B. Erkältung, Fieber), kontaktieren Sie frühzeitig die Klinik.',
+          'Bei akuten Beschwerden wie Atemnot, Bewusstseinsstörungen oder starken Schmerzen rufen Sie den Notruf 112 an.'
+        ]
+      },
+      knee: {
+        label: 'Kniearthroskopie',
+        procedure: [
+          'Bei einer Kniearthroskopie wird mit einer kleinen Kamera in das Kniegelenk geschaut.',
+          'Es werden meist nur kleine Hautschnitte gemacht. Über diese können Instrumente in das Gelenk geführt werden.',
+          'Die Operation kann in Vollnarkose oder in regionaler Betäubung stattfinden. Das entscheidet Ihr Behandlungsteam.',
+          'Nach der OP wird das Bein verbunden und Sie werden im Aufwachraum überwacht.'
+        ],
+        preparation: [
+          'Klär en Sie im Vorgespräch, wie stark Sie das Bein nach der OP belasten dürfen.',
+          'Bereiten Sie zu Hause einen gut erreichbaren Ruheplatz vor, ideal ohne viele Stufen.',
+          'Organisieren Sie Hilfsmittel, falls diese empfohlen wurden (z.B. Unterarmgehstützen).',
+          'Fragen Sie Ihr Behandlungsteam, ob Sie bestimmte Medikamente vor der OP pausieren sollen.'
+        ],
+        aftercare: [
+          'Lagern Sie das Bein nach Empfehlung Ihres Behandlungsteams und bewegen Sie es nur im erlaubten Umfang.',
+          'Achten Sie auf zunehmende Schmerzen, Rötung oder Schwellung am Knie.',
+          'Nehmen Sie Termine zur Physiotherapie wahr, wenn diese vorgesehen sind.',
+          'Steigern Sie die Belastung des Beins nur langsam und nach ärztlicher Rücksprache.'
+        ],
+        faq: [
+          'Leichte Schmerzen und Schwellungen in den ersten Tagen sind häufig. Starke oder plötzlich zunehmende Schmerzen sollten Sie ärztlich abklären lassen.',
+          'Fragen zur Arbeitsunfähigkeit und zum Sport sollten Sie direkt mit Ihrem Behandlungsteam besprechen.',
+          'Diese App gibt nur allgemeine Hinweise und ersetzt keine individuelle Empfehlung.'
+        ]
+      },
+      hernia: {
+        label: 'Leistenhernie',
+        procedure: [
+          'Bei einer Leistenhernie-Operation wird ein Bruch in der Leistenregion verschlossen.',
+          'Dies kann über einen kleineren Schnitt oder in Schlüsselloch-Technik erfolgen. Die genaue Methode erklärt Ihr Behandlungsteam.',
+          'Oft wird ein Netz aus speziellem Material eingesetzt, um die Bauchwand zu verstärken.',
+          'Nach der OP werden Sie überwacht, bis Kreislauf und Schmerzen stabil sind.'
+        ],
+        preparation: [
+          'Fragen Sie im Vorgespräch nach, wie lange Sie nach der OP kein Auto fahren oder schwer heben sollen.',
+          'Bereiten Sie den Alltag so vor, dass Sie in den ersten Tagen wenig heben oder tragen müssen.',
+          'Organisieren Sie Unterstützung für schwere Tätigkeiten im Haushalt.',
+          'Beachten Sie die Hinweise Ihrer Klinik zu Nüchternheit und Medikamenten.'
+        ],
+        aftercare: [
+          'Vermeiden Sie in den ersten Wochen schweres Heben, soweit möglich.',
+          'Achten Sie auf Rötung, Verhärtung oder starke Schmerzen im Bereich der Narbe.',
+          'Leichte Bewegung, zum Beispiel kurze Spaziergänge, kann nach ärztlicher Freigabe sinnvoll sein.',
+          'Fragen zu Sport, Beruf und Sexualität sollten Sie individuell mit Ihrem Behandlungsteam besprechen.'
+        ],
+        faq: [
+          'Leichte Schmerzen und ein Spannungsgefühl in der Leiste sind nach der OP häufig.',
+          'Starke, plötzlich zunehmende Schmerzen oder eine harte Schwellung sollten Sie umgehend abklären lassen.',
+          'Diese App gibt nur allgemeine Informationen und ersetzt keine ärztliche Empfehlung.'
+        ]
+      },
+      gallbladder: {
+        label: 'Gallenblase (laparoskopisch)',
+        procedure: [
+          'Bei der laparoskopischen Gallenblasen-OP wird die Gallenblase über mehrere kleine Schnitte entfernt.',
+          'Über eine Kamera kann das Behandlungsteam den Bauchraum auf einem Monitor sehen.',
+          'Die Operation erfolgt in Vollnarkose. Details bespricht das Narkoseteam mit Ihnen.',
+          'Nach der OP werden Sie im Aufwachraum überwacht, bis Sie stabil sind.'
+        ],
+        preparation: [
+          'Fragen Sie nach, ob Sie vor der OP auf bestimmte Speisen oder Getränke verzichten sollen.',
+          'Notieren Sie Beschwerden wie Schmerzen im rechten Oberbauch, Übelkeit oder Unverträglichkeiten für das Vorgespräch.',
+          'Organisieren Sie Unterstützung für die ersten Tage nach der OP, z.B. beim Einkaufen.',
+          'Beachten Sie die Hinweise Ihrer Klinik zur Nüchternheit vor der OP.'
+        ],
+        aftercare: [
+          'Leichte Schmerzen an den Einstichstellen sind normal. Bei starken oder zunehmenden Schmerzen sollten Sie Ihr Behandlungsteam kontaktieren.',
+          'Achten Sie auf Warnzeichen wie Fieber, starke Übelkeit oder anhaltendes Erbrechen.',
+          'Steigern Sie Ihre Ernährung langsam und beobachten Sie, welche Speisen Sie gut vertragen.',
+          'Besprechen Sie im Kontrolltermin, wann Sie wieder voll belastbar sind.'
+        ],
+        faq: [
+          'Nach Entfernung der Gallenblase können manche Menschen fettreiche Speisen schlechter vertragen. Hier hilft oft eine schrittweise Anpassung.',
+          'Bei Gelbfärbung der Augen oder Haut sollten Sie umgehend ärztliche Hilfe suchen.',
+          'Die App ersetzt keine individuelle Ernährungsberatung oder ärztliche Betreuung.'
+        ]
+      }
+    };
+  }
+
+  function buildPackListDefaults() {
+    const defaults = {
+      idCard: { label: 'Personalausweis oder Reisepass', note: 'Zur Identifikation in der Klinik.' },
+      insuranceCard: { label: 'Krankenversicherungskarte', note: 'Gesetzlich oder privat, je nach Versicherung.' },
+      referral: { label: 'Einweisung / Überweisung / Arztbriefe', note: 'Unterlagen vom Hausarzt oder Facharzt.' },
+      medsList: { label: 'Aktuelle Medikamentenliste', note: 'Mit Dosierungen und Allergien (ohne konkrete Einnahmehinweise). ' },
+      imaging: { label: 'Vorbefunde (z.B. Röntgen, MRT)', note: 'Falls vorhanden, im Zweifel nachfragen.' },
+      comfortableClothes: { label: 'Bequeme Kleidung', note: 'Praktisch zum An- und Ausziehen.' },
+      hygiene: { label: 'Toilettenartikel in Reisegröße', note: 'Nur das Nötigste, falls Übernachtung möglich.' },
+      glasses: { label: 'Brille / Hörgeräte', note: 'Mit Etui, falls Sie diese brauchen.' },
+      charger: { label: 'Ladegerät für Handy', note: 'Damit Sie erreichbar bleiben.' },
+      contactList: { label: 'Kontaktliste', note: 'Wichtige Telefonnummern (Angehörige, Hausarzt). ' },
+      payment: { label: 'Etwas Bargeld oder Karte', note: 'Für kleine Ausgaben in der Klinik.' }
+    };
+    const persisted = {};
+    Object.keys(defaults).forEach(key => {
+      persisted[key] = {
+        ...defaults[key],
+        checked: state.packList[key] ? !!state.packList[key].checked : false
+      };
+    });
+    state.packList = persisted;
+    savePackList();
+  }
+
+  function saveTaskNote(taskId, note) {
+    const idx = state.tasks.findIndex(t => t.id === taskId);
+    if (idx >= 0) {
+      state.tasks[idx].note = note;
+      saveTasks();
+    }
+  }
+
+  function toggleTaskDone(taskId) {
+    const idx = state.tasks.findIndex(t => t.id === taskId);
+    if (idx >= 0) {
+      state.tasks[idx].isDone = !state.tasks[idx].isDone;
+      saveTasks();
+      render();
+    }
+  }
+
+  function togglePackItem(key) {
+    if (!state.packList[key]) return;
+    state.packList[key].checked = !state.packList[key].checked;
+    savePackList();
+    render();
+  }
+
+  function resetAllData() {
+    localStorage.removeItem(storageKeyProfile);
+    localStorage.removeItem(storageKeyTasks);
+    localStorage.removeItem(storageKeySettings);
+    localStorage.removeItem(storageKeyPack);
+    state.userProfile = {
+      opDate: '',
+      opType: 'general',
+      hospitalName: '',
+      hospitalPhone: '',
+      emergencyContact: '',
+      wantsReminders: false,
+      disclaimerAccepted: false,
+      privacyAccepted: false
+    };
+    state.tasks = [];
+    state.settings = {
+      theme: 'dark',
+      timelineFilter: 'all',
+      activeTab: 'dashboard',
+      infoTab: 'procedure',
+      onboardingStep: 1
+    };
+    state.packList = {};
+    buildPackListDefaults();
+    syncTheme();
+    render();
+  }
+
+  function syncTheme() {
+    const root = document.getElementById('app-root');
+    root.setAttribute('data-theme', state.settings.theme === 'light' ? 'light' : 'dark');
+  }
+
+  function changeOpDate(newDate) {
+    state.userProfile.opDate = newDate;
+    saveProfile();
+    if (newDate) {
+      const oldTasks = state.tasks;
+      const newTemplate = buildTimelineTemplate(state.userProfile.opType);
+      const merged = newTemplate.map(newTask => {
+        const existing = oldTasks.find(o => o.id === newTask.id);
+        if (existing) {
+          return { ...newTask, isDone: existing.isDone, note: existing.note };
+        }
+        return newTask;
+      });
+      state.tasks = merged;
+      saveTasks();
+    }
+    render();
+  }
+
+  function changeOpType(newType) {
+    state.userProfile.opType = newType;
+    saveProfile();
+    if (state.userProfile.opDate) {
+      const oldTasks = state.tasks;
+      const newTemplate = buildTimelineTemplate(newType);
+      const merged = newTemplate.map(newTask => {
+        const existing = oldTasks.find(o => o.id === newTask.id);
+        if (existing) {
+          return { ...newTask, isDone: existing.isDone, note: existing.note };
+        }
+        return newTask;
+      });
+      state.tasks = merged;
+      saveTasks();
+    }
+    render();
+  }
+
+  function render() {
+    const root = document.getElementById('app-root');
+    syncTheme();
+
+    if (!state.userProfile.opDate || !state.userProfile.disclaimerAccepted || !state.userProfile.privacyAccepted) {
+      root.innerHTML = renderOnboarding();
+      attachOnboardingHandlers();
+      return;
+    }
+
+    if (!state.packList || Object.keys(state.packList).length === 0) {
+      buildPackListDefaults();
+    }
+
+    root.innerHTML = renderAppShell();
+    attachAppHandlers();
+  }
+
+  function renderOnboarding() {
+    const step = state.settings.onboardingStep || 1;
+    let content = '';
+    if (step === 1) {
+      content = `
+        <section class="onboarding-shell" aria-label="SurgeryPrep Onboarding">
+          <div class="onboard-card">
+            <div class="onboard-step-pill">
+              <span class="onboard-step-dot" aria-hidden="true"></span>
+              <span>Schritt 1 von 3 · Start</span>
+            </div>
+            <h1 class="onboard-title">Willkommen bei SurgeryPrep</h1>
+            <p class="onboard-subtitle">
+              Diese App hilft Ihnen, sich auf eine Operation vorzubereiten. Sie erhalten eine einfache Checkliste,
+              allgemeine Informationen und Hinweise zu Warnzeichen.
+            </p>
+            <div class="onboard-body">
+              <p><strong>Wichtig:</strong> Die App ersetzt keine ärztliche Beratung. Sie gibt nur allgemeine Informationen.</p>
+              <ul class="bullets">
+                <li>Keine individuellen Therapieentscheidungen oder Dosierungen.</li>
+                <li>Bei Fragen wenden Sie sich bitte an Ihr Behandlungsteam.</li>
+                <li>Im Notfall rufen Sie die 112 an.</li>
+              </ul>
+            </div>
+            <div class="onboard-actions">
+              <button class="btn-primary" id="btn-onb-1-next">
+                Weiter · Haftung & Datenschutz
+              </button>
+            </div>
+          </div>
+        </section>
+      `;
+    } else if (step === 2) {
+      content = `
+        <section class="onboarding-shell" aria-label="Haftung und Datenschutz">
+          <div class="onboard-card">
+            <div class="onboard-step-pill">
+              <span class="onboard-step-dot" aria-hidden="true"></span>
+              <span>Schritt 2 von 3 · Haftung & Datenschutz</span>
+            </div>
+            <h1 class="onboard-title">Haftungsausschluss & Datenschutz</h1>
+            <div class="onboard-body">
+              <p><strong>Medizinischer Hinweis:</strong></p>
+              <ul class="bullets">
+                <li>Die Inhalte sind allgemein und können Ihre persönliche Situation nicht vollständig abbilden.</li>
+                <li>Sie dürfen Entscheidungen zu Diagnostik oder Behandlung nicht allein auf Basis dieser App treffen.</li>
+                <li>Folgen Sie immer den Anweisungen Ihres Behandlungsteams.</li>
+              </ul>
+              <p><strong>Datenschutz (DSGVO):</strong></p>
+              <ul class="bullets">
+                <li>Ihre Eingaben (z.B. OP-Datum, OP-Typ) werden nur lokal in diesem Browser gespeichert.</li>
+                <li>Es gibt keine Registrierung, kein Tracking und keine Übertragung an einen Server.</li>
+                <li>Sie können die Daten jederzeit in den Einstellungen löschen.</li>
+              </ul>
+              <div class="input-inline" style="margin-top:6px;">
+                <input type="checkbox" id="chk-disclaimer" class="input-checkbox" ${state.userProfile.disclaimerAccepted ? 'checked' : ''}>
+                <label for="chk-disclaimer" class="input-checkbox-label">
+                  Ich habe den medizinischen Hinweis gelesen und verstanden.
+                </label>
+              </div>
+              <div class="input-inline">
+                <input type="checkbox" id="chk-privacy" class="input-checkbox" ${state.userProfile.privacyAccepted ? 'checked' : ''}>
+                <label for="chk-privacy" class="input-checkbox-label">
+                  Ich bin damit einverstanden, dass meine Angaben lokal im Browser gespeichert werden.
+                </label>
+              </div>
+            </div>
+            <div class="onboard-actions">
+              <button class="btn-primary" id="btn-onb-2-next" ${state.userProfile.disclaimerAccepted && state.userProfile.privacyAccepted ? '' : 'disabled style="opacity:0.6; cursor:not-allowed;"'}>
+                Weiter · OP-Daten eingeben
+              </button>
+              <button class="btn-secondary" id="btn-onb-2-back">
+                Zurück
+              </button>
+            </div>
+          </div>
+        </section>
+      `;
+    } else {
+      content = `
+        <section class="onboarding-shell" aria-label="OP-Daten">
+          <div class="onboard-card">
+            <div class="onboard-step-pill">
+              <span class="onboard-step-dot" aria-hidden="true"></span>
+              <span>Schritt 3 von 3 · OP-Daten</span>
+            </div>
+            <h1 class="onboard-title">Ihre Operation</h1>
+            <p class="onboard-subtitle">
+              Diese Angaben werden nur genutzt, um Ihre persönliche Timeline im Kalender zu berechnen.
+            </p>
+            <div class="onboard-body">
+              <div class="input-row">
+                <label for="onb-op-date" class="input-label">OP-Datum</label>
+                <input id="onb-op-date" type="date" class="input-field" value="${state.userProfile.opDate || ''}">
+              </div>
+              <div class="input-row">
+                <label for="onb-op-type" class="input-label">OP-Typ</label>
+                <select id="onb-op-type" class="input-field">
+                  <option value="general" ${state.userProfile.opType === 'general' ? 'selected' : ''}>Allgemein (Standard)</option>
+                  <option value="knee" ${state.userProfile.opType === 'knee' ? 'selected' : ''}>Kniearthroskopie</option>
+                  <option value="hernia" ${state.userProfile.opType === 'hernia' ? 'selected' : ''}>Leistenhernie</option>
+                  <option value="gallbladder" ${state.userProfile.opType === 'gallbladder' ? 'selected' : ''}>Gallenblase (laparoskopisch)</option>
+                </select>
+              </div>
+              <div class="input-row">
+                <label for="onb-hospital" class="input-label">Krankenhaus / Praxis (optional)</label>
+                <input id="onb-hospital" class="input-field" type="text" placeholder="Name oder Ort" value="${state.userProfile.hospitalName || ''}">
+              </div>
+              <div class="input-row">
+                <label for="onb-phone" class="input-label">Telefonnummer Klinik (optional)</label>
+                <input id="onb-phone" class="input-field" type="tel" placeholder="z.B. 01234 56789" value="${state.userProfile.hospitalPhone || ''}">
+              </div>
+              <div class="input-row">
+                <label for="onb-emergency" class="input-label">Notfallkontakt (Name/Telefon, optional)</label>
+                <input id="onb-emergency" class="input-field" type="text" placeholder="z.B. Partner, Eltern" value="${state.userProfile.emergencyContact || ''}">
+              </div>
+              <div class="input-inline" style="margin-top:6px;">
+                <input type="checkbox" id="onb-reminders" class="input-checkbox" ${state.userProfile.wantsReminders ? 'checked' : ''}>
+                <label for="onb-reminders" class="input-checkbox-label">
+                  Ich möchte an Aufgaben erinnert werden (wenn im Browser möglich).
+                </label>
+              </div>
+              <p class="muted-helper">
+                Hinweis: Die Erinnerungsfunktion ist ein einfacher In-App-Hinweis. Es werden keine Daten an einen Server gesendet.
+              </p>
+            </div>
+            <div class="onboard-actions">
+              <button class="btn-primary" id="btn-onb-3-finish">
+                Start · Zum Dashboard
+              </button>
+              <button class="btn-secondary" id="btn-onb-3-back">
+                Zurück
+              </button>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+    return content;
+  }
+
+  function attachOnboardingHandlers() {
+    const root = document.getElementById('app-root');
+    const step = state.settings.onboardingStep || 1;
+
+    if (step === 1) {
+      const btnNext = root.querySelector('#btn-onb-1-next');
+      btnNext?.addEventListener('click', () => {
+        state.settings.onboardingStep = 2;
+        saveSettings();
+        render();
+      });
+    } else if (step === 2) {
+      const chkDisclaimer = root.querySelector('#chk-disclaimer');
+      const chkPrivacy = root.querySelector('#chk-privacy');
+      const btnNext = root.querySelector('#btn-onb-2-next');
+      const btnBack = root.querySelector('#btn-onb-2-back');
+
+      const updateBtnState = () => {
+        const ready = chkDisclaimer.checked && chkPrivacy.checked;
+        btnNext.disabled = !ready;
+        btnNext.style.opacity = ready ? '1' : '0.6';
+        btnNext.style.cursor = ready ? 'pointer' : 'not-allowed';
+      };
+
+      chkDisclaimer?.addEventListener('change', () => {
+        state.userProfile.disclaimerAccepted = chkDisclaimer.checked;
+        saveProfile();
+        updateBtnState();
+      });
+      chkPrivacy?.addEventListener('change', () => {
+        state.userProfile.privacyAccepted = chkPrivacy.checked;
+        saveProfile();
+        updateBtnState();
+      });
+
+      btnNext?.addEventListener('click', () => {
+        if (!chkDisclaimer.checked || !chkPrivacy.checked) return;
+        state.settings.onboardingStep = 3;
+        saveSettings();
+        render();
+      });
+      btnBack?.addEventListener('click', () => {
+        state.settings.onboardingStep = 1;
+        saveSettings();
+        render();
+      });
+    } else if (step === 3) {
+      const inputDate = root.querySelector('#onb-op-date');
+      const inputType = root.querySelector('#onb-op-type');
+      const inputHospital = root.querySelector('#onb-hospital');
+      const inputPhone = root.querySelector('#onb-phone');
+      const inputEmergency = root.querySelector('#onb-emergency');
+      const chkRem = root.querySelector('#onb-reminders');
+      const btnFinish = root.querySelector('#btn-onb-3-finish');
+      const btnBack = root.querySelector('#btn-onb-3-back');
+
+      btnFinish?.addEventListener('click', () => {
+        state.userProfile.opDate = inputDate.value;
+        state.userProfile.opType = inputType.value;
+        state.userProfile.hospitalName = inputHospital.value.trim();
+        state.userProfile.hospitalPhone = inputPhone.value.trim();
+        state.userProfile.emergencyContact = inputEmergency.value.trim();
+        state.userProfile.wantsReminders = chkRem.checked;
+        saveProfile();
+
+        if (!state.userProfile.opDate) {
+          alert('Bitte ein OP-Datum eingeben, damit die Timeline berechnet werden kann.');
+          return;
+        }
+
+        state.tasks = buildTimelineTemplate(state.userProfile.opType);
+        saveTasks();
+
+        state.settings.activeTab = 'dashboard';
+        saveSettings();
+        render();
+      });
+
+      btnBack?.addEventListener('click', () => {
+        state.settings.onboardingStep = 2;
+        saveSettings();
+        render();
+      });
+    }
+  }
+
+  function renderAppShell() {
+    const opDate = state.userProfile.opDate;
+    const today = new Date().toLocalISODate();
+    const diff = daysBetween(today, opDate);
+    let countdownLabel = '';
+    let statusTagHtml = '';
+    if (diff === null) {
+      countdownLabel = 'Bitte OP-Datum eingeben.';
+      statusTagHtml = `<span class="status-tag"><span class="status-dot status-dot-warn"></span>Datum fehlt</span>`;
+    } else if (diff > 0) {
+      countdownLabel = `Noch ${diff} Tag${diff === 1 ? '' : 'e'} bis zur OP.`;
+      statusTagHtml = `<span class="status-tag"><span class="status-dot"></span>In Vorbereitung</span>`;
+    } else if (diff === 0) {
+      countdownLabel = 'Heute ist Ihr OP-Tag.';
+      statusTagHtml = `<span class="status-tag"><span class="status-dot status-dot-warn"></span>Heute</span>`;
+    } else {
+      countdownLabel = `Die OP liegt ${Math.abs(diff)} Tag${Math.abs(diff) === 1 ? '' : 'e'} zurück.`;
+      statusTagHtml = `<span class="status-tag"><span class="status-dot status-dot-warn"></span>Nach der OP</span>`;
+    }
+
+    const infoContent = getInfoContent();
+    const opLabel = infoContent[state.userProfile.opType]?.label || 'Unbekannte OP';
+
+    const upcomingTasks = getUpcomingTasks();
+
+    let nextTasksHtml = '';
+    if (upcomingTasks.length === 0) {
+      nextTasksHtml = `
+        <li class="txt-muted">
+          Keine offenen Aufgaben für die nächsten Tage. Prüfen Sie die Timeline für weitere Details.
+        </li>
+      `;
+    } else {
+      nextTasksHtml = upcomingTasks.map(t => `
+        <li class="task-pill" data-open-tab="timeline">
+          <div class="task-pill-main">
+            <div class="task-pill-title">${t.title}</div>
+            <div class="task-pill-meta">
+              <strong>${formatRelativeDateLabel(t.dueDate)}</strong>
+              · ${t.description}
+            </div>
+          </div>
+          <div style="font-size:0.9rem; color:${t.isDone ? '#22c55e' : '#e5e7eb'};" aria-hidden="true">
+            ${t.isDone ? '✓' : '›'}
+          </div>
+        </li>
+      `).join('');
+    }
+
+    const completedCount = state.tasks.filter(t => t.isDone).length;
+    const totalCount = state.tasks.length;
+    const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    return `
+      <div class="app-shell" aria-label="SurgeryPrep App">
+        <section class="surface-main">
+          <header class="surface-header" aria-label="App Kopfbereich">
+            <div class="brand">
+              <div class="brand-logo" aria-hidden="true">
+                <div class="brand-logo-inner">SP</div>
+              </div>
+              <div>
+                <div class="brand-text-main">SurgeryPrep</div>
+                <div class="brand-text-sub">Ihre OP-Vorbereitung im Überblick</div>
+              </div>
+            </div>
+            <button class="btn-icon-ghost" id="btn-theme-toggle" aria-label="Darstellung wechseln (Hell/Dunkel)">
+              <span role="img" aria-hidden="true">${state.settings.theme === 'light' ? '🌙' : '☀️'}</span>
+            </button>
+          </header>
+
+          <div class="header-sub">
+            <div class="header-sub-left">
+              <div class="badge-date" aria-label="OP-Datum">
+                <div class="badge-date-icon" aria-hidden="true">📅</div>
+                <span>${opDate ? `OP am ${formatDateReadable(opDate)}` : 'OP-Datum noch nicht gesetzt'}</span>
+              </div>
+              ${statusTagHtml}
+            </div>
+            <div class="pill-meta">
+              <span class="pill-meta-dot" aria-hidden="true"></span>
+              <span>Infos ersetzen keine ärztliche Beratung</span>
+            </div>
+          </div>
+
+          <main class="section-scroll" aria-live="polite">
+            ${renderActiveTab({
+              opLabel,
+              diff,
+              countdownLabel,
+              nextTasksHtml,
+              progress,
+              completedCount,
+              totalCount
+            })}
+          </main>
+        </section>
+      </div>
+
+      <nav class="bottom-nav-shell" aria-label="Hauptnavigation">
+        <div class="bottom-nav">
+          <button class="nav-btn ${state.settings.activeTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard">
+            <span class="nav-btn-icon" aria-hidden="true">🏠</span>
+            <span>Start</span>
+          </button>
+          <button class="nav-btn ${state.settings.activeTab === 'timeline' ? 'active' : ''}" data-tab="timeline">
+            <span class="nav-btn-icon" aria-hidden="true">✅</span>
+            <span>Timeline</span>
+          </button>
+          <button class="nav-btn ${state.settings.activeTab === 'info' ? 'active' : ''}" data-tab="info">
+            <span class="nav-btn-icon" aria-hidden="true">📘</span>
+            <span>OP-Infos</span>
+          </button>
+          <button class="nav-btn ${state.settings.activeTab === 'warn' ? 'active' : ''}" data-tab="warn">
+            <span class="nav-btn-icon" aria-hidden="true">⚠️</span>
+            <span>Warnzeichen</span>
+          </button>
+          <button class="nav-btn ${state.settings.activeTab === 'docs' ? 'active' : ''}" data-tab="docs">
+            <span class="nav-btn-icon" aria-hidden="true">🧳</span>
+            <span>Dokumente</span>
+          </button>
+        </div>
+      </nav>
+    `;
+  }
+
+  function renderActiveTab(ctx) {
+    switch (state.settings.activeTab) {
+      case 'timeline':
+        return renderTimelineTab();
+      case 'info':
+        return renderInfoTab();
+      case 'warn':
+        return renderWarnTab();
+      case 'docs':
+        return renderDocsTab();
+      case 'settings':
+        return renderSettingsTab();
+      case 'dashboard':
+      default:
+        return renderDashboardTab(ctx);
+    }
+  }
+
+  function renderDashboardTab({ opLabel, diff, countdownLabel, nextTasksHtml, progress, completedCount, totalCount }) {
+    return `
+      <section aria-label="Dashboard">
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">⏱</div>
+              <span>Countdown zur OP</span>
+            </div>
+            <span class="badge-soft badge-soft-neutral">${opLabel}</span>
+          </div>
+          <div class="grid-two">
+            <div class="countdown">
+              <div class="countdown-row">
+                <div class="countdown-main">
+                  <span class="countdown-number">${diff === null ? '-' : Math.abs(diff)}</span>
+                  <div>
+                    <div class="countdown-label">
+                      ${diff === null ? 'Tage' : diff === 0 ? 'heute' : diff > 0 ? 'Tage bis zur OP' : 'Tage seit der OP'}
+                    </div>
+                    <div class="countdown-secondary">${countdownLabel}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="txt-muted">
+                Rechts sehen Sie den Fortschritt Ihrer Aufgaben. Nutzen Sie die Timeline,
+                um nichts Wichtiges zu vergessen.
+              </p>
+              <div class="progress-bar-shell" aria-label="Fortschritt erledigter Aufgaben">
+                <div class="progress-bar-inner" style="width:${progress}%"></div>
+              </div>
+              <div class="row-space">
+                <span class="txt-muted">
+                  ${completedCount} von ${totalCount} Aufgaben erledigt
+                </span>
+                <button class="btn-inline" data-open-tab="timeline">
+                  Zur Timeline
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">📝</div>
+              <span>Nächste Schritte</span>
+            </div>
+            <span class="badge-soft badge-soft-cta">Top 3 Aufgaben</span>
+          </div>
+          <ul class="list-compact">
+            ${nextTasksHtml}
+          </ul>
+          <p class="muted-helper">
+            Tipp: Tippen Sie in der Timeline auf eine Aufgabe, um Notizen zu ergänzen oder den Status zu ändern.
+          </p>
+        </article>
+
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">📘</div>
+              <span>Wie nutze ich die Timeline?</span>
+            </div>
+            <span class="badge-soft">Hilfe</span>
+          </div>
+          <div class="tab-content">
+            <p>
+              Die Timeline zeigt Aufgaben in der Reihenfolge, wie sie rund um den OP-Termin anstehen.
+              Jede Aufgabe hat eine kurze Erklärung.
+            </p>
+            <ul class="bullets">
+              <li>Schalten Sie Aufgaben auf „erledigt“, wenn Sie den Punkt abgehakt haben.</li>
+              <li>Sie können zu jeder Aufgabe eine kurze Notiz speichern, z.B. Rückruftermine.</li>
+              <li>Mit Filtern sehen Sie nur offene oder bereits erledigte Aufgaben.</li>
+              <li>Wenn sich das OP-Datum ändert, wird die Timeline automatisch neu berechnet.</li>
+            </ul>
+            <p class="muted-helper">
+              Hinweis: Die Timeline ersetzt keine Checkliste Ihrer Klinik, sondern soll diese ergänzen.
+            </p>
+          </div>
+        </article>
+      </section>
+    `;
+  }
+
+  function renderTimelineTab() {
+    const filter = state.settings.timelineFilter || 'all';
+    const today = new Date().toLocalISODate();
+    let tasks = [...state.tasks];
+    if (filter === 'open') {
+      tasks = tasks.filter(t => !t.isDone);
+    } else if (filter === 'done') {
+      tasks = tasks.filter(t => t.isDone);
+    }
+
+    return `
+      <section aria-label="Timeline & Checkliste">
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">✅</div>
+              <span>Timeline zur OP</span>
+            </div>
+            <button class="btn-inline-secondary" id="btn-change-opdate">
+              <span aria-hidden="true">🗓</span> OP-Datum ändern
+            </button>
+          </div>
+          <div class="timeline-filter-row">
+            <div class="segmented" role="radiogroup" aria-label="Aufgabenfilter">
+              <button type="button" class="${filter === 'all' ? 'active' : ''}" data-filter="all">
+                <span>Alle</span>
+              </button>
+              <button type="button" class="${filter === 'open' ? 'active' : ''}" data-filter="open">
+                <span>Offen</span>
+              </button>
+              <button type="button" class="${filter === 'done' ? 'active' : ''}" data-filter="done">
+                <span>Erledigt</span>
+              </button>
+            </div>
+            <span class="txt-muted">
+              Aufgaben insgesamt: ${state.tasks.length}
+            </span>
+          </div>
+          <ul class="timeline-list" aria-label="Aufgabenliste">
+            ${tasks.map(renderTaskCard).join('')}
+          </ul>
+          <p class="muted-helper">
+            Hinweis: Diese Aufgaben sind allgemein gehalten. Folgen Sie immer zusätzlich den konkreten Anweisungen Ihres Behandlungsteams.
+          </p>
+        </article>
+      </section>
+    `;
+  }
+
+  function renderTaskCard(task) {
+    const today = new Date().toLocalISODate();
+    const diffDays = daysBetween(today, task.dueDate);
+    const dateLabel = formatRelativeDateLabel(task.dueDate);
+
+    return `
+      <li class="task-card" data-task-id="${task.id}">
+        <div class="task-phase">
+          <span class="task-phase-pill">${task.phase}</span>
+          <span>${dateLabel}</span>
+        </div>
+        <div class="task-main">
+          <div class="task-main-header">
+            <div class="task-main-title">${task.title}</div>
+            <div>
+              <label class="chip chip-primary" style="cursor:pointer;">
+                <input type="checkbox" ${task.isDone ? 'checked' : ''} style="margin-right:4px;" data-task-toggle="${task.id}">
+                erledigt
+              </label>
+            </div>
+          </div>
+          <div class="task-main-desc">
+            ${task.description}
+          </div>
+          <div class="task-main-footer">
+            <div class="task-actions">
+              <button class="btn-link" type="button" data-task-note="${task.id}">
+                ${task.note ? 'Notiz bearbeiten' : 'Notiz hinzufügen'}
+              </button>
+              ${task.note ? `<span class="chip"><span class="note-badge" aria-hidden="true">★</span> Notiz gespeichert</span>` : ''}
+            </div>
+            <span class="txt-muted">
+              ${diffDays === 0 ? 'Heute' : diffDays > 0 ? `In ${diffDays} Tag${diffDays === 1 ? '' : 'en'}` : `Vor ${Math.abs(diffDays)} Tag${Math.abs(diffDays) === 1 ? '' : 'en'}`}
+            </span>
+          </div>
+          ${task.note ? `<div class="text-note">${task.note}</div>` : ''}
+        </div>
+      </li>
+    `;
+  }
+
+  function renderInfoTab() {
+    const info = getInfoContent()[state.userProfile.opType] || getInfoContent().general;
+    const tab = state.settings.infoTab || 'procedure';
+
+    const contentMap = {
+      procedure: info.procedure,
+      preparation: info.preparation,
+      aftercare: info.aftercare,
+      faq: info.faq
+    };
+    const activeContent = contentMap[tab] || [];
+
+    const tabLabel = {
+      procedure: 'Ablauf',
+      preparation: 'Vorbereitung',
+      aftercare: 'Nach der OP',
+      faq: 'Häufige Fragen'
+    };
+
+    return `
+      <section aria-label="OP-Informationen">
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">📘</div>
+              <span>OP-Infos · ${info.label}</span>
+            </div>
+            <span class="badge-soft">Allgemeine Hinweise</span>
+          </div>
+          <div class="tabs-header" role="tablist" aria-label="OP-Info Bereiche">
+            <button class="tab-pill ${tab === 'procedure' ? 'active' : ''}" data-info-tab="procedure" role="tab">
+              <span aria-hidden="true">🩺</span>
+              <span>Ablauf</span>
+            </button>
+            <button class="tab-pill ${tab === 'preparation' ? 'active' : ''}" data-info-tab="preparation" role="tab">
+              <span aria-hidden="true">📋</span>
+              <span>Vorbereitung</span>
+            </button>
+            <button class="tab-pill ${tab === 'aftercare' ? 'active' : ''}" data-info-tab="aftercare" role="tab">
+              <span aria-hidden="true">💤</span>
+              <span>Nach der OP</span>
+            </button>
+            <button class="tab-pill ${tab === 'faq' ? 'active' : ''}" data-info-tab="faq" role="tab">
+              <span aria-hidden="true">❓</span>
+              <span>Fragen</span>
+            </button>
+          </div>
+          <div class="tab-content" aria-label="${tabLabel[tab]}">
+            <ul class="bullets">
+              ${activeContent.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+            <p class="muted-helper">
+              Hinweis: Konkrete Angaben zu Medikamenten, Narkose oder individuellen Risiken erhalten Sie nur von Ihrem Behandlungsteam.
+            </p>
+          </div>
+        </article>
+      </section>
+    `;
+  }
+
+  function renderWarnTab() {
+    const phone = state.userProfile.hospitalPhone;
+    return `
+      <section aria-label="Warnzeichen">
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">⚠️</div>
+              <span>Warnzeichen · Wann Hilfe holen?</span>
+            </div>
+            <span class="badge-soft-danger">Im Zweifel früh Hilfe holen</span>
+          </div>
+          <ul class="warn-list">
+            ${renderWarnItem('Starke oder zunehmende Schmerzen', 'Wenn Ihre Schmerzen trotz Behandlung deutlich zunehmen oder neu auftreten, sollten Sie zeitnah Ihr Behandlungsteam kontaktieren.')}
+            ${renderWarnItem('Starke Blutung', 'Wenn eine Wunde stark blutet oder sich nicht mit einfachem Druck beruhigen lässt, holen Sie schnell ärztliche Hilfe.')}
+            ${renderWarnItem('Atemnot oder Brustschmerz', 'Plötzliche Atemnot, Brustschmerzen oder Engegefühl in der Brust sind Notfallsymptome.')}
+            ${renderWarnItem('Fieber', 'Anhaltendes Fieber (z.B. über 38 °C) nach einer Operation sollte ärztlich abgeklärt werden.')}
+            ${renderWarnItem('Rötung, Schwellung, Nässen', 'Eine stark gerötete, geschwollene oder nässende Wunde kann auf eine Entzündung hinweisen.')}
+            ${renderWarnItem('Verwirrtheit oder Bewusstseinsstörungen', 'Neue Verwirrtheit, starke Schläfrigkeit oder Bewusstseinsstörungen sind Warnzeichen.')}
+            ${renderWarnItem('Starke Übelkeit oder Erbrechen', 'Wenn Sie kaum trinken können oder sich häufig erbrechen, sollten Sie ärztlichen Rat einholen.')}
+            ${renderWarnItem('Unsicherheit oder schlechtes Bauchgefühl', 'Wenn Sie unsicher sind oder sich deutlich schlechter fühlen, ist es sinnvoll, frühzeitig medizinischen Rat einzuholen.')}
+          </ul>
+          <div class="danger-cta" aria-label="Notfallhinweis">
+            <div class="danger-cta-icon" aria-hidden="true">🚑</div>
+            <div class="danger-cta-main">
+              <div class="danger-cta-title">Akuter Notfall</div>
+              <div class="danger-cta-text">
+                Bei lebensbedrohlichen Beschwerden (z.B. starke Atemnot, Bewusstlosigkeit, schwere Brustschmerzen) rufen Sie sofort den Notruf 112 an.
+              </div>
+              <button class="btn-112" type="button" onclick="window.location.href='tel:112'">
+                <span aria-hidden="true">📞</span>
+                <span>Notruf 112 wählen</span>
+              </button>
+            </div>
+          </div>
+          ${phone ? `
+          <div class="toolbar-row" style="margin-top:8px;">
+            <div class="txt-muted">
+              Bei nicht dringlichen Fragen können Sie, wenn passend, Ihre Klinik kontaktieren.
+            </div>
+            <button class="btn-inline" type="button" onclick="window.location.href='tel:${phone.replace(/[^0-9+]/g, '')}'">
+              <span aria-hidden="true">🏥</span>
+              <span>Klinik anrufen</span>
+            </button>
+          </div>
+          ` : `
+          <p class="muted-helper">
+            Tipp: Tragen Sie in den Einstellungen eine Telefonnummer Ihrer Klinik ein, um hier einen direkten Anruf-Button zu sehen.
+          </p>
+          `}
+        </article>
+      </section>
+    `;
+  }
+
+  function renderWarnItem(title, text) {
+    return `
+      <li class="warn-item">
+        <div class="warn-icon" aria-hidden="true">!</div>
+        <div class="warn-main">
+          <div class="warn-title">${title}</div>
+          <div class="warn-text">${text}</div>
+        </div>
+      </li>
+    `;
+  }
+
+  function renderDocsTab() {
+    const items = state.packList;
+    return `
+      <section aria-label="Dokumente und Packliste">
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">🧳</div>
+              <span>Packliste für die OP</span>
+            </div>
+            <button class="btn-inline-secondary" id="btn-print">
+              <span aria-hidden="true">🖨</span>
+              <span>Drucken</span>
+            </button>
+          </div>
+          <ul class="pack-list">
+            ${Object.entries(items).map(([key, item]) => `
+              <li class="pack-item" data-pack-key="${key}">
+                <button type="button" class="pack-checkbox" data-pack-toggle="${key}" aria-pressed="${item.checked}">
+                  ${item.checked ? '✓' : ''}
+                </button>
+                <div class="pack-text">
+                  <strong>${item.label}</strong>
+                  ${item.note ? `<div class="pack-note">${item.note}</div>` : ''}
+                </div>
+              </li>
+            `).join('')}
+          </ul>
+          <p class="muted-helper">
+            Hinweis: Diese Liste ist allgemein gehalten. Ihre Klinik kann Ihnen zusätzlich eine eigene Packliste geben, an der Sie sich orientieren sollten.
+          </p>
+        </article>
+
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">📄</div>
+              <span>Wichtige Dokumente</span>
+            </div>
+          </div>
+          <div class="tab-content">
+            <ul class="bullets">
+              <li>Bewahren Sie Einverständniserklärungen, Aufklärungsbögen und OP-Termine an einem festen Ort auf.</li>
+              <li>Notieren Sie Fragen an Ihr Behandlungsteam am besten schriftlich, damit Sie beim Gespräch nichts vergessen.</li>
+              <li>Digitale Unterlagen auf dem Handy können hilfreich sein, ersetzen aber keine offiziellen Dokumente.</li>
+              <li>Datei-Uploads in dieser App sind im Prototyp bewusst nicht vorgesehen, um Ihre Daten zu schützen.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">⚙️</div>
+              <span>Einstellungen & Daten</span>
+            </div>
+          </div>
+          <div class="tab-content">
+            <p>
+              In den Einstellungen können Sie das OP-Datum, den OP-Typ und Ihre Kontaktdaten anpassen.
+              Außerdem können Sie hier alle gespeicherten Daten löschen.
+            </p>
+            <button class="btn-inline" type="button" id="btn-open-settings">
+              <span aria-hidden="true">⚙️</span>
+              <span>Zu den Einstellungen</span>
+            </button>
+            <p class="muted-helper">
+              Hinweis: Alle Daten werden nur lokal in diesem Browser gespeichert und können von Ihnen jederzeit zurückgesetzt werden.
+            </p>
+          </div>
+        </article>
+      </section>
+    `;
+  }
+
+  function renderSettingsTab() {
+    return `
+      <section aria-label="Einstellungen">
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">⚙️</div>
+              <span>Einstellungen</span>
+            </div>
+            <span class="badge-soft">Lokal gespeichert</span>
+          </div>
+          <div class="tab-content">
+            <div class="input-row">
+              <label for="set-op-date" class="input-label">OP-Datum</label>
+              <input id="set-op-date" type="date" class="input-field" value="${state.userProfile.opDate || ''}">
+            </div>
+            <div class="input-row">
+              <label for="set-op-type" class="input-label">OP-Typ</label>
+              <select id="set-op-type" class="input-field">
+                <option value="general" ${state.userProfile.opType === 'general' ? 'selected' : ''}>Allgemein (Standard)</option>
+                <option value="knee" ${state.userProfile.opType === 'knee' ? 'selected' : ''}>Kniearthroskopie</option>
+                <option value="hernia" ${state.userProfile.opType === 'hernia' ? 'selected' : ''}>Leistenhernie</option>
+                <option value="gallbladder" ${state.userProfile.opType === 'gallbladder' ? 'selected' : ''}>Gallenblase (laparoskopisch)</option>
+              </select>
+            </div>
+            <div class="input-row">
+              <label for="set-hospital" class="input-label">Krankenhaus / Praxis (optional)</label>
+              <input id="set-hospital" class="input-field" type="text" value="${state.userProfile.hospitalName || ''}">
+            </div>
+            <div class="input-row">
+              <label for="set-phone" class="input-label">Telefonnummer Klinik (optional)</label>
+              <input id="set-phone" class="input-field" type="tel" value="${state.userProfile.hospitalPhone || ''}">
+            </div>
+            <div class="input-row">
+              <label for="set-emergency" class="input-label">Notfallkontakt (Name/Telefon, optional)</label>
+              <input id="set-emergency" class="input-field" type="text" value="${state.userProfile.emergencyContact || ''}">
+            </div>
+            <div class="input-inline" style="margin-top:6px;">
+              <input type="checkbox" id="set-reminders" class="input-checkbox" ${state.userProfile.wantsReminders ? 'checked' : ''}>
+              <label for="set-reminders" class="input-checkbox-label">
+                Ich möchte an Aufgaben erinnert werden (wenn im Browser möglich).
+              </label>
+            </div>
+            <div class="input-inline" style="margin-top:6px;">
+              <input type="checkbox" id="set-theme" class="input-checkbox" ${state.settings.theme === 'light' ? 'checked' : ''}>
+              <label for="set-theme" class="input-checkbox-label">
+                Helles Design verwenden
+              </label>
+            </div>
+            <p class="muted-helper">
+              Hinweis: Alle Angaben werden nur lokal auf diesem Gerät gespeichert und können jederzeit gelöscht werden.
+            </p>
+          </div>
+        </article>
+
+        <article class="block">
+          <div class="block-header-row">
+            <div class="block-title">
+              <div class="block-title-icon" aria-hidden="true">🗑</div>
+              <span>Daten löschen</span>
+            </div>
+          </div>
+          <div class="tab-content">
+            <p>
+              Wenn Sie die App weitergeben oder nicht mehr nutzen möchten, können Sie alle gespeicherten Angaben zurücksetzen.
+            </p>
+            <button class="btn-inline" type="button" id="btn-reset-data">
+              <span aria-hidden="true">🧹</span>
+              <span>Alles zurücksetzen</span>
+            </button>
+          </div>
+        </article>
+      </section>
+    `;
+  }
+
+  function formatDateReadable(iso) {
+    if (!iso) return '-';
+    const d = new Date(iso + 'T00:00:00');
+    const dd = d.getDate().toString().padStart(2, '0');
+    const mm = (d.getMonth() + 1).toString().padStart(2, '0');
+    const yyyy = d.getFullYear();
+    return `${dd}.${mm}.${yyyy}`;
+  }
+
+  function formatRelativeDateLabel(dueIso) {
+    const today = new Date().toLocalISODate();
+    const diff = daysBetween(today, dueIso);
+    if (diff === 0) return 'Heute';
+    if (diff === 1) return 'Morgen';
+    if (diff === -1) return 'Gestern';
+    if (diff > 1) return `In ${diff} Tagen (${formatDateReadable(dueIso)})`;
+    return `Vor ${Math.abs(diff)} Tagen (${formatDateReadable(dueIso)})`;
+  }
+
+  function getUpcomingTasks() {
+    const today = new Date().toLocalISODate();
+    const future = state.tasks.filter(t => {
+      const d = daysBetween(today, t.dueDate);
+      return d !== null && d >= 0 && !t.isDone;
+    });
+    future.sort((a, b) => {
+      const da = new Date(a.dueDate);
+      const db = new Date(b.dueDate);
+      if (da.getTime() !== db.getTime()) return da.getTime() - db.getTime();
+      return a.title.localeCompare(b.title, 'de');
+    });
+    return future.slice(0, 3);
+  }
+
+  function attachAppHandlers() {
+    const root = document.getElementById('app-root');
+    const themeBtn = root.querySelector('#btn-theme-toggle');
+    themeBtn?.addEventListener('click', () => {
+      state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light';
+      saveSettings();
+      render();
+    });
+
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        if (!tab) return;
+        if (tab === 'settings') {
+          state.settings.activeTab = 'settings';
+        } else {
+          state.settings.activeTab = tab;
+        }
+        saveSettings();
+        render();
+      });
+    });
+
+    const openTabButtons = root.querySelectorAll('[data-open-tab]');
+    openTabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-open-tab');
+        if (!target) return;
+        state.settings.activeTab = target;
+        saveSettings();
+        render();
+      });
+    });
+
+    const segBtns = root.querySelectorAll('.segmented button');
+    segBtns.forEach(b => {
+      b.addEventListener('click', () => {
+        const f = b.getAttribute('data-filter');
+        if (!f) return;
+        state.settings.timelineFilter = f;
+        saveSettings();
+        render();
+      });
+    });
+
+    const toggleInputs = root.querySelectorAll('[data-task-toggle]');
+    toggleInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        const id = input.getAttribute('data-task-toggle');
+        toggleTaskDone(id);
+      });
+    });
+
+    const noteButtons = root.querySelectorAll('[data-task-note]');
+    noteButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-task-note');
+        openNoteDialog(id);
+      });
+    });
+
+    const infoTabButtons = root.querySelectorAll('[data-info-tab]');
+    infoTabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-info-tab');
+        state.settings.infoTab = tab;
+        saveSettings();
+        render();
+      });
+    });
+
+    const packButtons = root.querySelectorAll('[data-pack-toggle]');
+    packButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-pack-toggle');
+        togglePackItem(key);
+      });
+    });
+
+    const btnPrint = root.querySelector('#btn-print');
+    btnPrint?.addEventListener('click', () => {
+      showPrintView();
+    });
+
+    const btnOpenSettings = root.querySelector('#btn-open-settings');
+    btnOpenSettings?.addEventListener('click', () => {
+      state.settings.activeTab = 'settings';
+      saveSettings();
+      render();
+    });
+
+    const btnChangeOpDate = root.querySelector('#btn-change-opdate');
+    btnChangeOpDate?.addEventListener('click', () => {
+      state.settings.activeTab = 'settings';
+      saveSettings();
+      render();
+    });
+
+    if (state.settings.activeTab === 'settings') {
+      const setOpDate = root.querySelector('#set-op-date');
+      const setOpType = root.querySelector('#set-op-type');
+      const setHospital = root.querySelector('#set-hospital');
+      const setPhone = root.querySelector('#set-phone');
+      const setEmergency = root.querySelector('#set-emergency');
+      const setRem = root.querySelector('#set-reminders');
+      const setTheme = root.querySelector('#set-theme');
+      const btnReset = root.querySelector('#btn-reset-data');
+
+      setOpDate?.addEventListener('change', () => {
+        changeOpDate(setOpDate.value);
+      });
+      setOpType?.addEventListener('change', () => {
+        changeOpType(setOpType.value);
+      });
+      setHospital?.addEventListener('input', () => {
+        state.userProfile.hospitalName = setHospital.value.trim();
+        saveProfile();
+      });
+      setPhone?.addEventListener('input', () => {
+        state.userProfile.hospitalPhone = setPhone.value.trim();
+        saveProfile();
+      });
+      setEmergency?.addEventListener('input', () => {
+        state.userProfile.emergencyContact = setEmergency.value.trim();
+        saveProfile();
+      });
+      setRem?.addEventListener('change', () => {
+        state.userProfile.wantsReminders = setRem.checked;
+        saveProfile();
+      });
+      setTheme?.addEventListener('change', () => {
+        state.settings.theme = setTheme.checked ? 'light' : 'dark';
+        saveSettings();
+        render();
+      });
+      btnReset?.addEventListener('click', () => {
+        const sure = confirm('Möchten Sie wirklich alle Daten löschen? Die Timeline und Ihre Angaben werden zurückgesetzt.');
+        if (sure) {
+          resetAllData();
+        }
+      });
+    }
+  }
+
+  function openNoteDialog(taskId) {
+    const dlg = document.getElementById('note-dialog');
+    const textarea = document.getElementById('note-text');
+    const task = state.tasks.find(t => t.id === taskId);
+    state.lastNoteTaskId = taskId;
+    textarea.value = task?.note || '';
+    try {
+      dlg.showModal();
+    } catch {
+      dlg.setAttribute('open', 'open');
+    }
+  }
+
+  function closeNoteDialog(save) {
+    const dlg = document.getElementById('note-dialog');
+    const textarea = document.getElementById('note-text');
+    if (save && state.lastNoteTaskId) {
+      saveTaskNote(state.lastNoteTaskId, textarea.value.trim());
+    }
+    dlg.close();
+    render();
+  }
+
+  function showPrintView() {
+    const printDiv = document.getElementById('print-view');
+    const items = state.packList;
+    const opInfo = getInfoContent()[state.userProfile.opType] || getInfoContent().general;
+
+    printDiv.innerHTML = `
+      <h1>SurgeryPrep · Packliste</h1>
+      <p>OP-Typ: ${opInfo.label}</p>
+      <p>OP-Datum: ${state.userProfile.opDate ? formatDateReadable(state.userProfile.opDate) : 'noch nicht eingetragen'}</p>
+      <h2 style="margin-top:12px;">Mitbringen</h2>
+      <ul>
+        ${Object.values(items).map(item => `<li>${item.label}${item.note ? ' – ' + item.note : ''}</li>`).join('')}
+      </ul>
+      <p style="margin-top:12px; font-size:0.85rem;">
+        Hinweis: Diese Liste ist allgemein. Beachten Sie zusätzliche Hinweise Ihrer Klinik.
+      </p>
+    `;
+    printDiv.style.display = 'block';
+    window.print();
+    setTimeout(() => {
+      printDiv.style.display = 'none';
+    }, 200);
+  }
+
+  window.SurgeryPrep = {
+    closeNoteDialog
+  };
+
+  loadState();
+
+  if (state.userProfile.opDate && !state.tasks.length) {
+    state.tasks = buildTimelineTemplate(state.userProfile.opType);
+    saveTasks();
+  }
+
+  syncTheme();
+  render();
+})();
+</script>
+</body>
+</html>
