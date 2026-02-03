@@ -5,52 +5,53 @@
   <title>SurgeryPrep – OP-Vorbereitung</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Basis-Styles, mobile-first -->
+  <!-- Modernes, buntes, glassmorphism-inspiriertes Design -->
   <style>
     :root {
-      color-scheme: light dark;
-      --bg: #0f172a;
-      --bg-soft: #020617;
-      --bg-soft-alt: #020617;
-      --bg-elevated: #020617;
-      --border-subtle: rgba(148, 163, 184, 0.35);
-      --accent: #06b6d4;
-      --accent-soft: rgba(56, 189, 248, 0.2);
-      --accent-strong: #22c55e;
-      --accent-warn: #f97316;
-      --accent-danger: #ef4444;
+      color-scheme: dark light;
+      --bg: radial-gradient(circle at top, #020617 0, #020617 24%, #020617 48%, #020617 100%);
+      --bg-plain: #020617;
+      --glass: rgba(15, 23, 42, 0.78);
+      --glass-strong: rgba(15, 23, 42, 0.92);
+      --glass-soft: rgba(15, 23, 42, 0.70);
+      --glass-border: rgba(148, 163, 184, 0.42);
+      --accent-cyan: #06b6d4;
+      --accent-sky: #0ea5e9;
+      --accent-lime: #a3e635;
+      --accent-green: #22c55e;
+      --accent-pink: #ec4899;
+      --accent-orange: #fb923c;
+      --accent-danger: #f97373;
       --text-main: #e5e7eb;
-      --text-soft: #9ca3af;
-      --text-softer: #6b7280;
-      --tab-inactive: #64748b;
-      --surface-radius-lg: 22px;
-      --surface-radius-md: 16px;
-      --surface-radius-sm: 999px;
-      --shadow-strong: 0 22px 60px rgba(15, 23, 42, 0.95);
-      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.75);
-      --shadow-border: 0 0 0 1px rgba(148, 163, 184, 0.25);
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --text-soft: #cbd5f5;
+      --text-muted: #9ca3af;
+      --shadow-deep: 0 28px 80px rgba(15, 23, 42, 0.98);
+      --shadow-soft: 0 18px 48px rgba(15, 23, 42, 0.85);
+      --shadow-subtle: 0 0 0 1px rgba(148, 163, 184, 0.55);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-pill: 999px;
+      --blur-strong: 26px;
+      --blur-soft: 16px;
       --transition-fast: 0.16s ease-out;
+      --transition-med: 0.22s ease-out;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
     }
 
     [data-theme="light"] {
-      --bg: #f3f4f6;
-      --bg-soft: #ffffff;
-      --bg-soft-alt: #f9fafb;
-      --bg-elevated: #ffffff;
-      --border-subtle: rgba(156, 163, 175, 0.6);
-      --accent: #0284c7;
-      --accent-soft: rgba(56, 189, 248, 0.12);
-      --accent-strong: #16a34a;
-      --accent-warn: #ea580c;
-      --accent-danger: #dc2626;
-      --text-main: #0f172a;
-      --text-soft: #4b5563;
-      --text-softer: #6b7280;
-      --tab-inactive: #9ca3af;
-      --shadow-strong: 0 18px 40px rgba(15, 23, 42, 0.20);
-      --shadow-soft: 0 10px 26px rgba(15, 23, 42, 0.16);
-      --shadow-border: 0 0 0 1px rgba(148, 163, 184, 0.35);
+      --bg: radial-gradient(circle at top, #e0f2fe 0, #eff6ff 32%, #f9fafb 100%);
+      --bg-plain: #f9fafb;
+      --glass: rgba(255, 255, 255, 0.82);
+      --glass-strong: rgba(255, 255, 255, 0.96);
+      --glass-soft: rgba(255, 255, 255, 0.68);
+      --glass-border: rgba(148, 163, 184, 0.58);
+      --text-main: #020617;
+      --text-soft: #0f172a;
+      --text-muted: #6b7280;
+      --shadow-deep: 0 24px 60px rgba(15, 23, 42, 0.14);
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+      --shadow-subtle: 0 0 0 1px rgba(148, 163, 184, 0.45);
     }
 
     * {
@@ -65,24 +66,60 @@
 
     body {
       font-family: var(--font-main);
-      background: radial-gradient(circle at top, #0b1120 0, var(--bg) 42%, #020617 100%);
+      background: var(--bg);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Bunte Hintergrund-Orbs */
+    .orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.65;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb--cyan {
+      width: 320px;
+      height: 320px;
+      top: -120px;
+      left: -110px;
+      background: radial-gradient(circle at 30% 20%, rgba(56,189,248,0.75), transparent 60%);
+    }
+    .orb--pink {
+      width: 280px;
+      height: 280px;
+      bottom: 40px;
+      right: -80px;
+      background: radial-gradient(circle at 70% 40%, rgba(244,114,182,0.68), transparent 60%);
+    }
+    .orb--lime {
+      width: 220px;
+      height: 220px;
+      bottom: 320px;
+      left: 60%;
+      background: radial-gradient(circle at 40% 60%, rgba(190,242,100,0.6), transparent 65%);
     }
 
     #app-root {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       max-width: 520px;
       margin: 0 auto;
+      padding: 14px 10px 80px;
       display: flex;
       flex-direction: column;
-      padding: 8px 10px 68px;
+      gap: 12px;
     }
 
     @media (min-width: 640px) {
       #app-root {
-        padding: 16px 16px 72px;
+        padding: 20px 16px 96px;
       }
     }
 
@@ -95,123 +132,160 @@
 
     .surface-main {
       flex: 1;
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 52%),
-                  radial-gradient(circle at bottom right, rgba(34,197,94,0.14), transparent 60%),
-                  var(--bg-soft);
-      border-radius: 26px;
-      box-shadow: var(--shadow-strong), var(--shadow-border);
+      background: linear-gradient(135deg, rgba(15,23,42,0.88), rgba(15,23,42,0.92));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: var(--shadow-deep);
       padding: 14px 14px 18px;
       display: flex;
       flex-direction: column;
+      backdrop-filter: blur(var(--blur-strong));
       position: relative;
       overflow: hidden;
     }
 
-    @media (min-width: 640px) {
-      .surface-main {
-        border-radius: 26px;
-      }
+    [data-theme="light"] .surface-main {
+      background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(248,250,252,0.98));
+    }
+
+    .surface-main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.22), transparent 60%),
+        radial-gradient(circle at top right, rgba(244,114,182,0.18), transparent 55%),
+        radial-gradient(circle at bottom, rgba(52,211,153,0.16), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .surface-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     .surface-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       gap: 8px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .brand-logo {
-      width: 30px;
-      height: 30px;
+      width: 36px;
+      height: 36px;
       border-radius: 999px;
-      position: relative;
-      background: conic-gradient(from 220deg, #06b6d4 0, #22c55e 40%, #0ea5e9 80%, #06b6d4 100%);
-      box-shadow: 0 0 0 1px rgba(15,23,42,0.9), 0 10px 22px rgba(34,197,94,0.65);
+      background:
+        conic-gradient(from 220deg, #06b6d4 0deg, #22c55e 120deg, #eab308 220deg, #ec4899 320deg, #06b6d4 360deg);
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow:
+        0 0 0 2px rgba(15,23,42,1),
+        0 18px 40px rgba(34,197,94,0.85);
+      position: relative;
+      overflow: hidden;
     }
 
     .brand-logo-inner {
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 20% 20%, #e0f2fe, #0f172a 52%);
+      width: 26px;
+      height: 26px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #e0f2fe, #020617 70%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
       font-weight: 700;
+      font-size: 11px;
       color: #e5e7eb;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .brand-text-main {
       font-size: 1.02rem;
       font-weight: 600;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-text-main span:last-child {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.14);
+      color: #7dd3fc;
+      border: 1px solid rgba(56,189,248,0.4);
+    }
+
+    [data-theme="light"] .brand-text-main span:last-child {
+      background: rgba(56,189,248,0.12);
+      color: #0369a1;
     }
 
     .brand-text-sub {
-      font-size: 0.70rem;
-      color: var(--text-soft);
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
 
-    .pill-meta {
+    .btn-icon {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 8px;
+      background: radial-gradient(circle at 20% 0%, rgba(248,250,252,0.3), transparent 60%);
+      background-color: rgba(15,23,42,0.85);
+      color: var(--text-soft);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.8);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: var(--text-soft);
-      font-size: 0.70rem;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.75);
+      cursor: pointer;
+      box-shadow:
+        0 0 0 1px rgba(148,163,184,0.7),
+        0 10px 28px rgba(15,23,42,0.9);
+      backdrop-filter: blur(14px);
+      font-size: 0.75rem;
+      transition:
+        background var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        color var(--transition-fast);
     }
 
-    [data-theme="light"] .pill-meta {
-      background: rgba(248,250,252,0.96);
-      border-color: rgba(148,163,184,0.9);
+    [data-theme="light"] .btn-icon {
+      background-color: rgba(255,255,255,0.96);
     }
 
-    .pill-meta-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+    .btn-icon span:first-child {
+      font-size: 1rem;
+      transform: translateY(-1px);
     }
 
-    .pill-meta-critical {
-      background: rgba(127, 29, 29, 0.85);
-      border-color: rgba(248, 113, 113, 0.95);
-      color: #fecaca;
-    }
-
-    [data-theme="light"] .pill-meta-critical {
-      background: rgba(254, 226, 226, 0.96);
-      color: #b91c1c;
-    }
-
-    .pill-meta-critical .pill-meta-dot {
-      background: #f97316;
-      box-shadow: 0 0 0 4px rgba(248, 250, 252, 0.35);
+    .btn-icon:active {
+      transform: translateY(1px) scale(0.97);
+      box-shadow:
+        0 0 0 1px rgba(148,163,184,0.8),
+        0 6px 18px rgba(15,23,42,0.95);
     }
 
     .header-sub {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
       gap: 10px;
+      margin-bottom: 8px;
       flex-wrap: wrap;
     }
 
@@ -222,408 +296,407 @@
       flex-wrap: wrap;
     }
 
+    .chip-glass {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.85));
+      border: 1px solid rgba(148,163,184,0.7);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.85);
+      backdrop-filter: blur(18px);
+    }
+
+    [data-theme="light"] .chip-glass {
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.96));
+    }
+
+    .chip-glass-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-green);
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.35);
+    }
+
+    .chip-glass-warning {
+      border-color: rgba(248,250,252,0.9);
+      background: linear-gradient(135deg, rgba(127,29,29,0.94), rgba(153,27,27,0.96));
+      color: #fed7d7;
+    }
+
+    [data-theme="light"] .chip-glass-warning {
+      background: linear-gradient(135deg, rgba(254,226,226,0.98), rgba(254,226,226,0.96));
+      color: #b91c1c;
+      border-color: rgba(254,202,202,0.9);
+    }
+
+    .chip-glass-warning .chip-glass-dot {
+      background: var(--accent-orange);
+      box-shadow: 0 0 0 4px rgba(248,250,252,0.4);
+    }
+
     .badge-date {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 9px 4px 7px;
+      padding: 4px 10px 4px 6px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      font-size: 0.70rem;
+      background: rgba(15,23,42,0.85);
       color: var(--text-soft);
+      font-size: 0.74rem;
+      border: 1px solid rgba(148,163,184,0.7);
+      backdrop-filter: blur(14px);
     }
 
     [data-theme="light"] .badge-date {
-      background: rgba(248,250,252,0.98);
+      background: rgba(255,255,255,0.96);
     }
 
     .badge-date-icon {
-      width: 16px;
-      height: 16px;
-      border-radius: 6px;
-      background: radial-gradient(circle at 20% 20%, #0ea5e9, #0f172a 65%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #e5e7eb;
-      font-size: 0.65rem;
-      box-shadow: 0 0 0 1px rgba(15,23,42,0.5);
-    }
-
-    .header-title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .header-title-main {
-      font-size: 0.96rem;
-      font-weight: 500;
-    }
-
-    .header-title-sub {
-      font-size: 0.78rem;
-      color: var(--text-soft);
-    }
-
-    .btn-icon-ghost {
-      border: none;
-      padding: 8px;
+      width: 18px;
+      height: 18px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.8);
-      color: var(--text-soft);
-      display: inline-flex;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #0f172a 70%);
+      color: #e5e7eb;
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 0 1px rgba(148,163,184,0.4);
-      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
-    }
-
-    [data-theme="light"] .btn-icon-ghost {
-      background: rgba(248,250,252,0.98);
-    }
-
-    .btn-icon-ghost:active {
-      transform: translateY(1px) scale(0.97);
-      box-shadow: 0 0 0 1px rgba(148,163,184,0.7);
-    }
-
-    .btn-icon-ghost span {
-      display: block;
-      font-size: 1.1rem;
-      transform: translateY(-1px);
+      font-size: 0.7rem;
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.8);
     }
 
     .section-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 4px 1px 2px;
+      padding: 4px 1px 4px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(148,163,184,0.9) rgba(15,23,42,0.7);
+      scrollbar-color: rgba(148,163,184,0.8) rgba(15,23,42,0.2);
     }
 
     .section-scroll::-webkit-scrollbar {
       width: 6px;
     }
-
     .section-scroll::-webkit-scrollbar-track {
-      background: rgba(15,23,42,0.8);
+      background: transparent;
     }
-
     .section-scroll::-webkit-scrollbar-thumb {
-      background: rgba(148,163,184,0.9);
+      background: rgba(148,163,184,0.8);
       border-radius: 999px;
     }
 
-    [data-theme="light"] .section-scroll::-webkit-scrollbar-track {
-      background: rgba(229, 231, 235, 0.7);
-    }
-
-    [data-theme="light"] .section-scroll::-webkit-scrollbar-thumb {
-      background: rgba(148,163,184,0.9);
-    }
-
     .block {
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 52%),
-                  rgba(15,23,42,0.96);
-      border-radius: 20px;
-      border: 1px solid rgba(148,163,184,0.5);
+      background: linear-gradient(135deg, rgba(15,23,42,0.92), rgba(15,23,42,0.86));
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.55);
       box-shadow: var(--shadow-soft);
-      padding: 10px 12px 12px;
+      padding: 12px 12px 12px;
       margin-bottom: 10px;
+      backdrop-filter: blur(var(--blur-soft));
     }
 
     [data-theme="light"] .block {
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.06), transparent 52%),
-                  rgba(255,255,255,0.98);
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98));
     }
 
     .block-header-row {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .block-title {
-      font-size: 0.95rem;
-      font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      font-size: 0.94rem;
+      font-weight: 500;
     }
 
     .block-title-icon {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 999px;
-      background: rgba(56,189,248,0.09);
-      color: #7dd3fc;
+      background: radial-gradient(circle at 30% 20%, rgba(56,189,248,0.9), rgba(15,23,42,1));
+      color: #e5e7eb;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.72rem;
-    }
-
-    .block-subtitle {
-      font-size: 0.78rem;
-      color: var(--text-soft);
+      font-size: 0.9rem;
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
     }
 
     .badge-soft {
-      font-size: 0.68rem;
-      color: var(--text-soft);
-      background: rgba(15,23,42,0.9);
+      font-size: 0.70rem;
+      padding: 4px 9px;
       border-radius: 999px;
-      padding: 3px 9px;
-      border: 1px solid rgba(148,163,184,0.5);
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     [data-theme="light"] .badge-soft {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
-    .badge-soft-cta {
-      color: #22c55e;
-      border-color: rgba(34,197,94,0.75);
-      background: rgba(22,163,74,0.09);
+    .badge-soft-accent {
+      border-color: rgba(56,189,248,0.9);
+      background: linear-gradient(135deg, rgba(56,189,248,0.16), rgba(56,189,248,0.08));
+      color: #7dd3fc;
+    }
+
+    [data-theme="light"] .badge-soft-accent {
+      color: #0369a1;
     }
 
     .badge-soft-danger {
+      border-color: rgba(248,113,113,0.95);
+      background: linear-gradient(135deg, rgba(127,29,29,0.95), rgba(153,27,27,0.98));
       color: #fecaca;
-      border-color: rgba(248,113,113,0.9);
-      background: rgba(127,29,29,0.85);
     }
 
     [data-theme="light"] .badge-soft-danger {
-      color: #b91c1c;
       background: rgba(254,226,226,0.98);
-    }
-
-    .badge-soft-neutral {
-      color: var(--text-soft);
+      color: #b91c1c;
     }
 
     .grid-two {
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 8px;
-      margin-top: 4px;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 2px;
     }
 
-    @media (max-width: 400px) {
+    @media (max-width: 420px) {
       .grid-two {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
-    .countdown {
-      padding: 8px 10px 10px;
-      border-radius: 16px;
-      background: rgba(15,23,42,0.96);
-      border: 1px solid rgba(148,163,184,0.5);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .countdown-card {
+      border-radius: var(--radius-lg);
+      padding: 10px 10px 12px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.24), transparent 65%),
+                  radial-gradient(circle at bottom right, rgba(34,197,94,0.18), transparent 65%),
+                  rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.96);
+      backdrop-filter: blur(20px);
     }
 
-    [data-theme="light"] .countdown {
-      background: rgba(248,250,252,0.98);
+    [data-theme="light"] .countdown-card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 65%),
+                  radial-gradient(circle at bottom right, rgba(34,197,94,0.12), transparent 65%),
+                  rgba(255,255,255,0.98);
     }
 
     .countdown-row {
       display: flex;
-      align-items: baseline;
       justify-content: space-between;
-      gap: 6px;
+      align-items: flex-end;
+      gap: 8px;
     }
 
     .countdown-main {
       display: flex;
       align-items: baseline;
-      gap: 6px;
+      gap: 8px;
     }
 
     .countdown-number {
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, #e0f2fe, #a5b4fc, #fbcfe8);
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
     .countdown-label {
-      font-size: 0.75rem;
-      color: var(--text-soft);
-    }
-
-    .countdown-tag {
-      font-size: 0.75rem;
-      color: var(--text-soft);
-    }
-
-    .countdown-tag strong {
-      color: var(--accent-strong);
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
 
     .countdown-secondary {
-      font-size: 0.75rem;
+      font-size: 0.80rem;
       color: var(--text-soft);
+      margin-top: 3px;
     }
 
     .status-tag {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 3px 7px;
+      gap: 6px;
+      padding: 4px 9px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.95);
-      font-size: 0.7rem;
+      background: rgba(15,23,42,0.9);
       border: 1px solid rgba(148,163,184,0.7);
       color: var(--text-soft);
+      font-size: 0.72rem;
     }
 
     [data-theme="light"] .status-tag {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
     .status-dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 999px;
-      background: #22c55e;
+      background: var(--accent-green);
     }
-
     .status-dot-warn {
-      background: #f97316;
+      background: var(--accent-orange);
     }
 
-    .status-dot-danger {
-      background: #ef4444;
-    }
-
-    .list-compact {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .task-pill {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      padding: 7px 8px;
-      border-radius: 14px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.6);
-      font-size: 0.78rem;
-      cursor: pointer;
-      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-    }
-
-    [data-theme="light"] .task-pill {
-      background: rgba(249,250,251,0.98);
-    }
-
-    .task-pill:active {
-      transform: translateY(1px);
-      border-color: rgba(56,189,248,0.8);
-    }
-
-    .task-pill-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .task-pill-title {
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    .task-pill-meta {
-      font-size: 0.70rem;
-      color: var(--text-soft);
-    }
-
-    .task-pill-meta strong {
-      color: var(--accent);
-    }
-
-    .progress-bar-shell {
-      width: 100%;
-      height: 7px;
+    .progress-shell {
       border-radius: 999px;
-      background: rgba(15,23,42,0.7);
-      overflow: hidden;
+      padding: 2px;
+      background: linear-gradient(90deg, rgba(15,23,42,0.9), rgba(15,23,42,0.9));
+      border: 1px solid rgba(31,41,55,0.9);
       margin-top: 4px;
-      border: 1px solid rgba(31,41,55,0.8);
     }
 
-    [data-theme="light"] .progress-bar-shell {
-      background: rgba(229,231,235,0.9);
+    [data-theme="light"] .progress-shell {
+      background: rgba(243,244,246,0.95);
       border-color: rgba(209,213,219,1);
     }
 
-    .progress-bar-inner {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #22c55e, #22c55e 55%, #a3e635 100%);
+    .progress-inner {
+      border-radius: inherit;
+      height: 8px;
+      background: linear-gradient(90deg, #22c55e, #a3e635, #67e8f9);
       width: 0%;
-      transition: width 0.25s ease-out;
+      transition: width 0.3s ease-out;
     }
 
     .row-space {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
       margin-top: 4px;
+      flex-wrap: wrap;
     }
 
     .txt-muted {
-      font-size: 0.72rem;
-      color: var(--text-soft);
+      font-size: 0.76rem;
+      color: var(--text-muted);
     }
 
-    .btn-inline {
+    .btn-chic {
       border: none;
-      padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(8,47,73,0.95);
-      color: #e5e7eb;
-      font-size: 0.72rem;
+      padding: 7px 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(15,23,42,0.7);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+      background: linear-gradient(135deg, #22c55e, #0ea5e9);
+      color: #020617;
+      box-shadow: 0 12px 30px rgba(8,47,73,0.95);
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        filter var(--transition-fast);
     }
 
-    [data-theme="light"] .btn-inline {
-      background: rgba(37,99,235,0.98);
-    }
-
-    .btn-inline:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 12px rgba(15,23,42,0.85);
-    }
-
-    .btn-inline-secondary {
-      background: rgba(15,23,42,0.95);
-    }
-
-    [data-theme="light"] .btn-inline-secondary {
-      background: rgba(107,114,128,0.98);
-    }
-
-    .btn-inline-secondary span {
+    .btn-chic span:first-child {
       font-size: 0.95rem;
+    }
+
+    .btn-chic:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 6px 16px rgba(8,47,73,1);
+    }
+
+    .btn-chic-ghost {
+      background: rgba(15,23,42,0.94);
+      color: var(--text-soft);
+      box-shadow: 0 10px 26px rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.75);
+    }
+
+    [data-theme="light"] .btn-chic-ghost {
+      background: rgba(255,255,255,0.98);
+    }
+
+    .list-compact {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 2px;
+    }
+
+    .pill-task {
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.92));
+      border: 1px solid rgba(148,163,184,0.65);
+      padding: 7px 9px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.9);
+    }
+
+    [data-theme="light"] .pill-task {
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98));
+    }
+
+    .pill-task:hover {
+      transform: translateY(-1px);
+      border-color: rgba(56,189,248,0.9);
+      box-shadow: 0 14px 36px rgba(8,47,73,0.95);
+    }
+
+    .pill-task-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pill-task-title {
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .pill-task-meta {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .pill-task-meta strong {
+      color: var(--accent-cyan);
+    }
+
+    .pill-task-chevron {
+      font-size: 0.95rem;
+      color: var(--accent-lime);
+      align-self: center;
+    }
+
+    .help-text {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 6px;
     }
 
     .timeline-filter-row {
@@ -631,104 +704,111 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       flex-wrap: wrap;
     }
 
     .segmented {
       display: inline-flex;
-      padding: 2px;
+      padding: 3px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.96);
-      border: 1px solid rgba(148,163,184,0.7);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.9);
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.8);
+      box-shadow: 0 14px 36px rgba(15,23,42,0.98);
+      backdrop-filter: blur(16px);
     }
 
     [data-theme="light"] .segmented {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
     .segmented button {
       border: none;
-      padding: 4px 10px;
       border-radius: 999px;
-      font-size: 0.72rem;
-      cursor: pointer;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
       background: transparent;
-      color: var(--text-soft);
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      min-width: 56px;
+      min-width: 60px;
       justify-content: center;
-      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+      transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
     }
 
-    .segmented button span {
+    .segmented button span:first-child {
       font-size: 0.8rem;
     }
 
     .segmented button.active {
       background: linear-gradient(135deg, #06b6d4, #22c55e);
-      color: #0b1120;
+      color: #020617;
+      box-shadow: 0 12px 30px rgba(8,47,73,1);
       font-weight: 500;
-      box-shadow: 0 10px 24px rgba(8,47,73,0.85);
       transform: translateY(-1px);
     }
 
     .segmented button:active {
       transform: translateY(0);
-      box-shadow: 0 6px 16px rgba(8,47,73,0.9);
+      box-shadow: 0 6px 18px rgba(8,47,73,1);
     }
 
     .timeline-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
 
     .task-card {
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 8px 9px 8px;
-      background: rgba(15,23,42,0.96);
+      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
       border: 1px solid rgba(148,163,184,0.7);
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       gap: 8px;
       font-size: 0.8rem;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.98);
+      backdrop-filter: blur(16px);
+      position: relative;
     }
 
     [data-theme="light"] .task-card {
-      background: rgba(248,250,252,1);
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98));
     }
 
     .task-phase {
-      font-size: 0.75rem;
-      color: var(--text-soft);
+      font-size: 0.76rem;
+      color: var(--text-muted);
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 3px;
+      gap: 4px;
       padding-top: 2px;
     }
 
     .task-phase-pill {
-      padding: 3px 7px;
+      padding: 3px 8px;
       border-radius: 999px;
       border: 1px solid rgba(148,163,184,0.7);
-      background: rgba(15,23,42,0.9);
-      font-size: 0.70rem;
+      background: rgba(15,23,42,0.94);
+      font-size: 0.72rem;
     }
 
     [data-theme="light"] .task-phase-pill {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.96);
     }
 
     .task-main {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
 
     .task-main-header {
@@ -739,20 +819,45 @@
     }
 
     .task-main-title {
-      font-size: 0.82rem;
-      font-weight: 500;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .toggle-pill {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148,163,184,0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(15,23,42,0.97);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    [data-theme="light"] .toggle-pill {
+      background: rgba(255,255,255,0.98);
+    }
+
+    .toggle-pill input {
+      margin: 0 4px 0 0;
     }
 
     .task-main-desc {
-      font-size: 0.76rem;
-      color: var(--text-soft);
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
 
     .task-main-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 4px;
       gap: 8px;
       flex-wrap: wrap;
     }
@@ -766,118 +871,98 @@
 
     .chip {
       border-radius: 999px;
-      padding: 4px 7px;
-      font-size: 0.70rem;
+      padding: 3px 8px;
+      font-size: 0.72rem;
       border: 1px solid rgba(148,163,184,0.7);
-      color: var(--text-soft);
-      background: rgba(15,23,42,0.9);
+      background: rgba(15,23,42,0.94);
+      color: var(--text-muted);
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
 
     [data-theme="light"] .chip {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
-    .chip-primary {
-      border-color: rgba(56,189,248,0.95);
-      color: #7dd3fc;
-      background: rgba(8,47,73,0.95);
-    }
-
-    [data-theme="light"] .chip-primary {
-      background: rgba(219,234,254,1);
-      color: #0369a1;
-    }
-
-    .chip-small-icon {
-      font-size: 0.85rem;
-    }
-
-    .note-badge {
+    .chip-note {
       color: #facc15;
+      border-color: rgba(250,204,21,0.8);
     }
 
     .btn-link {
       border: none;
       background: none;
-      color: var(--accent);
-      font-size: 0.72rem;
-      cursor: pointer;
+      color: var(--accent-cyan);
+      font-size: 0.76rem;
       text-decoration: underline;
       text-underline-offset: 2px;
-      padding: 0;
+      cursor: pointer;
     }
 
     .text-note {
-      font-size: 0.72rem;
-      color: var(--text-soft);
-      margin-top: 2px;
-    }
-
-    .muted-helper {
-      font-size: 0.75rem;
-      color: var(--text-soft);
-      margin-top: 4px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 3px;
     }
 
     .tabs-header {
       display: flex;
       gap: 6px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       flex-wrap: wrap;
     }
 
     .tab-pill {
-      padding: 5px 9px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.8);
-      background: rgba(15,23,42,0.95);
-      font-size: 0.75rem;
-      color: var(--text-soft);
-      cursor: pointer;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(15,23,42,0.96);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast);
+      backdrop-filter: blur(16px);
     }
 
     [data-theme="light"] .tab-pill {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
-    .tab-pill span {
-      font-size: 0.82rem;
+    .tab-pill span:first-child {
+      font-size: 0.9rem;
     }
 
     .tab-pill.active {
       background: linear-gradient(135deg, #06b6d4, #22c55e);
-      color: #0b1120;
-      font-weight: 500;
-      box-shadow: 0 10px 26px rgba(8,47,73,0.9);
+      color: #020617;
+      box-shadow: 0 12px 30px rgba(8,47,73,1);
       border-color: transparent;
       transform: translateY(-1px);
-    }
-
-    .tab-pill:active {
-      transform: translateY(0);
-      box-shadow: 0 6px 16px rgba(15,23,42,0.9);
+      font-weight: 500;
     }
 
     .tab-content {
       font-size: 0.78rem;
-      color: var(--text-soft);
+      color: var(--text-muted);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
 
     .bullets {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
     }
 
     .bullets li {
@@ -890,47 +975,45 @@
       position: absolute;
       left: 0;
       top: 0;
-      color: var(--accent);
+      color: var(--accent-cyan);
     }
 
     .warn-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-top: 4px;
+      gap: 7px;
+      margin-top: 3px;
     }
 
     .warn-item {
       border-radius: 16px;
-      padding: 7px 9px;
-      background: rgba(15,23,42,0.96);
-      border: 1px solid rgba(148,163,184,0.7);
+      padding: 8px 9px;
+      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.92));
+      border: 1px solid rgba(248,113,113,0.9);
       display: flex;
       align-items: flex-start;
       gap: 8px;
       font-size: 0.78rem;
+      box-shadow: 0 16px 40px rgba(127,29,29,0.95);
+      backdrop-filter: blur(18px);
     }
 
     [data-theme="light"] .warn-item {
-      background: rgba(248,250,252,1);
+      background: linear-gradient(135deg, rgba(254,242,242,0.98), rgba(254,242,242,0.96));
     }
 
     .warn-icon {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 999px;
-      background: rgba(248, 113, 113, 0.2);
-      color: #fecaca;
+      background: radial-gradient(circle at 30% 20%, #fecaca, #b91c1c);
+      color: #fef2f2;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
-    }
-
-    [data-theme="light"] .warn-icon {
-      background: rgba(254, 226, 226, 1);
-      color: #b91c1c;
+      font-size: 0.9rem;
+      box-shadow: 0 0 0 1px rgba(127,29,29,1);
     }
 
     .warn-main {
@@ -942,28 +1025,29 @@
 
     .warn-title {
       font-weight: 500;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
     }
 
     .warn-text {
       font-size: 0.76rem;
-      color: var(--text-soft);
+      color: var(--text-muted);
     }
 
     .danger-cta {
-      margin-top: 6px;
-      padding: 7px 9px;
-      border-radius: 12px;
+      margin-top: 8px;
+      border-radius: 18px;
+      padding: 9px 10px;
       background: linear-gradient(135deg, #b91c1c, #ef4444);
       color: #fef2f2;
-      font-size: 0.8rem;
       display: flex;
       align-items: flex-start;
       gap: 8px;
+      font-size: 0.8rem;
+      box-shadow: 0 18px 44px rgba(127,29,29,0.95);
     }
 
     .danger-cta-icon {
-      font-size: 0.95rem;
+      font-size: 1rem;
       transform: translateY(1px);
     }
 
@@ -971,7 +1055,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
     }
 
     .danger-cta-title {
@@ -979,35 +1063,38 @@
     }
 
     .danger-cta-text {
-      font-size: 0.77rem;
+      font-size: 0.78rem;
     }
 
     .btn-112 {
       margin-top: 4px;
-      border: none;
       border-radius: 999px;
-      padding: 6px 10px;
-      background: rgba(248, 250, 252, 0.15);
+      border: none;
+      padding: 6px 11px;
+      background: rgba(248,250,252,0.18);
       color: #fef2f2;
       font-size: 0.78rem;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      box-shadow: 0 10px 22px rgba(15,23,42,0.9);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+      box-shadow: 0 14px 34px rgba(15,23,42,0.98);
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
     }
 
     .btn-112:active {
       transform: translateY(1px);
-      box-shadow: 0 4px 12px rgba(15,23,42,0.95);
+      box-shadow: 0 8px 18px rgba(15,23,42,0.98);
     }
 
     .pack-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
       margin-top: 4px;
     }
 
@@ -1019,45 +1106,47 @@
     }
 
     .pack-checkbox {
-      width: 16px;
-      height: 16px;
-      border-radius: 4px;
-      border: 1px solid rgba(148,163,184,0.8);
-      background: rgba(15,23,42,0.95);
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(15,23,42,0.96);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       cursor: pointer;
       flex-shrink: 0;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.95);
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast),
+        border-color var(--transition-fast);
     }
 
     [data-theme="light"] .pack-checkbox {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
+    }
+
+    .pack-checkbox:active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.98);
     }
 
     .pack-text {
       flex: 1;
-      color: var(--text-soft);
+      color: var(--text-muted);
     }
 
     .pack-text strong {
-      color: var(--text-main);
+      color: var(--text-soft);
     }
 
     .pack-note {
-      font-size: 0.72rem;
-      color: var(--text-softer);
+      font-size: 0.74rem;
+      color: var(--text-muted);
       margin-top: 2px;
-    }
-
-    .toolbar-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 6px;
-      flex-wrap: wrap;
     }
 
     .input-row {
@@ -1068,33 +1157,43 @@
     }
 
     .input-label {
-      font-size: 0.75rem;
-      color: var(--text-soft);
+      font-size: 0.76rem;
+      color: var(--text-muted);
     }
 
     .input-field {
       width: 100%;
       border-radius: 12px;
-      border: 1px solid rgba(148,163,184,0.8);
+      border: 1px solid rgba(148,163,184,0.75);
       background: rgba(15,23,42,0.96);
-      color: var(--text-main);
+      color: var(--text-soft);
       font-size: 0.8rem;
-      padding: 7px 8px;
+      padding: 7px 9px;
       outline: none;
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.9);
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast),
+        transform var(--transition-fast);
     }
 
     [data-theme="light"] .input-field {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
+      color: var(--text-main);
     }
 
     .input-field::placeholder {
-      color: var(--text-softer);
+      color: var(--text-muted);
     }
 
     .input-field:focus {
       border-color: rgba(56,189,248,0.95);
-      box-shadow: 0 0 0 1px rgba(56,189,248,0.9);
+      box-shadow:
+        0 0 0 1px rgba(56,189,248,0.85),
+        0 14px 36px rgba(8,47,73,1);
+      transform: translateY(-0.5px);
     }
 
     .input-inline {
@@ -1102,24 +1201,13 @@
       align-items: center;
       gap: 6px;
       margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
 
     .input-checkbox {
-      width: 17px;
-      height: 17px;
-    }
-
-    .input-checkbox-label {
-      font-size: 0.78rem;
-      color: var(--text-soft);
-    }
-
-    .inline-link {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-size: 0.78rem;
-      cursor: pointer;
+      width: 18px;
+      height: 18px;
     }
 
     .bottom-nav-shell {
@@ -1127,10 +1215,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 4px 10px 8px;
+      padding: 6px 10px 10px;
       display: flex;
       justify-content: center;
       pointer-events: none;
+      z-index: 3;
     }
 
     @media (min-width: 640px) {
@@ -1144,26 +1233,28 @@
       width: 100%;
       max-width: 520px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.95);
-      border: 1px solid rgba(148,163,184,0.8);
-      box-shadow: 0 18px 40px rgba(15,23,42,0.96);
+      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.96));
+      border: 1px solid rgba(148,163,184,0.85);
+      box-shadow:
+        0 20px 60px rgba(15,23,42,0.98),
+        0 0 0 1px rgba(15,23,42,1);
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       padding: 4px;
-      gap: 2px;
-      backdrop-filter: blur(18px);
+      gap: 3px;
+      backdrop-filter: blur(20px);
     }
 
     [data-theme="light"] .bottom-nav {
-      background: rgba(15,23,42,0.9);
-      border-color: rgba(15,23,42,0.9);
+      background: linear-gradient(135deg, rgba(15,23,42,0.94), rgba(15,23,42,0.96));
+      border-color: rgba(15,23,42,0.96);
     }
 
     .nav-btn {
       border-radius: 999px;
       border: none;
       background: transparent;
-      color: var(--tab-inactive);
+      color: rgba(148,163,184,0.9);
       font-size: 0.7rem;
       padding: 6px 4px;
       display: flex;
@@ -1171,62 +1262,63 @@
       align-items: center;
       gap: 2px;
       cursor: pointer;
-      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
     }
 
     .nav-btn-icon {
-      font-size: 1.05rem;
-      line-height: 1;
+      font-size: 1.1rem;
     }
 
     .nav-btn.active {
-      background: linear-gradient(135deg, #06b6d4, #22c55e);
-      color: #0b1120;
-      font-weight: 500;
-      box-shadow: 0 11px 30px rgba(8,47,73,0.9);
+      background: radial-gradient(circle at 20% 0%, rgba(248,250,252,0.36), transparent 60%);
+      background-color: rgba(15,23,42,0.96);
+      color: #f9fafb;
+      box-shadow:
+        0 10px 28px rgba(15,23,42,1),
+        0 0 0 1px rgba(148,163,184,0.9);
       transform: translateY(-1px);
+      font-weight: 500;
     }
 
     .nav-btn:active {
       transform: translateY(0);
-      box-shadow: 0 5px 16px rgba(8,47,73,0.95);
+      box-shadow: 0 6px 18px rgba(15,23,42,1);
     }
 
     .onboarding-shell {
       min-height: 100vh;
       max-width: 520px;
       margin: 0 auto;
-      padding: 10px 12px 70px;
+      padding: 20px 16px 90px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 10px;
-    }
-
-    @media (min-width: 640px) {
-      .onboarding-shell {
-        padding: 20px 20px 80px;
-      }
+      gap: 12px;
     }
 
     .onboard-card {
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.22), transparent 55%),
-                  radial-gradient(circle at bottom right, rgba(34,197,94,0.18), transparent 65%),
-                  rgba(15,23,42,0.98);
-      border-radius: 24px;
+      border-radius: 26px;
       padding: 16px 14px 16px;
-      box-shadow: 0 22px 60px rgba(15,23,42,0.96), 0 0 0 1px rgba(148,163,184,0.45);
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.28), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(244,114,182,0.22), transparent 60%),
+        rgba(15,23,42,0.96);
+      box-shadow: 0 28px 80px rgba(15,23,42,0.98), 0 0 0 1px rgba(148,163,184,0.7);
+      backdrop-filter: blur(24px);
       display: flex;
       flex-direction: column;
       gap: 9px;
-      position: relative;
-      overflow: hidden;
     }
 
     [data-theme="light"] .onboard-card {
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.11), transparent 55%),
-                  radial-gradient(circle at bottom right, rgba(34,197,94,0.12), transparent 65%),
-                  rgba(255,255,255,0.99);
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(244,114,182,0.14), transparent 60%),
+        rgba(255,255,255,0.98);
     }
 
     .onboard-step-pill {
@@ -1235,39 +1327,39 @@
       gap: 6px;
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.96);
+      background: rgba(15,23,42,0.9);
       border: 1px solid rgba(148,163,184,0.7);
-      color: var(--text-soft);
-      font-size: 0.72rem;
-      align-self: flex-start;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      backdrop-filter: blur(16px);
     }
 
     [data-theme="light"] .onboard-step-pill {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
     .onboard-step-dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: #22c55e;
+      background: var(--accent-green);
       box-shadow: 0 0 0 4px rgba(34,197,94,0.35);
     }
 
     .onboard-title {
-      font-size: 1.18rem;
+      font-size: 1.20rem;
       font-weight: 600;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
     }
 
     .onboard-subtitle {
-      font-size: 0.86rem;
-      color: var(--text-soft);
+      font-size: 0.84rem;
+      color: var(--text-muted);
     }
 
     .onboard-body {
       font-size: 0.8rem;
-      color: var(--text-soft);
+      color: var(--text-muted);
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -1275,72 +1367,84 @@
     }
 
     .onboard-actions {
-      margin-top: 8px;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
     .btn-primary {
-      border: none;
       border-radius: 999px;
+      border: none;
       padding: 10px 14px;
-      background: linear-gradient(135deg, #06b6d4, #22c55e);
-      color: #0b1120;
       font-size: 0.9rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      background: linear-gradient(135deg, #22c55e, #06b6d4);
+      color: #020617;
+      box-shadow:
+        0 16px 40px rgba(8,47,73,0.98),
+        0 0 0 1px rgba(34,197,94,0.7);
       cursor: pointer;
-      box-shadow: 0 16px 40px rgba(8,47,73,0.95);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        filter var(--transition-fast);
     }
 
     .btn-primary:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 8px 18px rgba(8,47,73,1);
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 10px 24px rgba(8,47,73,1);
     }
 
     .btn-secondary {
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.8);
+      border: 1px solid rgba(148,163,184,0.7);
       padding: 8px 14px;
-      background: rgba(15,23,42,0.96);
-      color: var(--text-soft);
-      font-size: 0.85rem;
+      background: rgba(15,23,42,0.9);
+      color: var(--text-muted);
+      font-size: 0.84rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       cursor: pointer;
-      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+      transition:
+        background var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        color var(--transition-fast);
     }
 
     [data-theme="light"] .btn-secondary {
-      background: rgba(248,250,252,1);
+      background: rgba(255,255,255,0.98);
     }
 
     .btn-secondary:active {
       transform: translateY(1px);
-      box-shadow: 0 6px 16px rgba(15,23,42,0.9);
+      box-shadow: 0 8px 20px rgba(15,23,42,0.95);
     }
 
     .small {
-      font-size: 0.75rem;
-      color: var(--text-soft);
+      font-size: 0.76rem;
+      color: var(--text-muted);
     }
 
     dialog {
       border: none;
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 12px 12px 10px;
       max-width: 440px;
       width: calc(100% - 32px);
-      background: rgba(15,23,42,0.98);
-      color: var(--text-main);
-      box-shadow: 0 20px 60px rgba(15,23,42,0.98), 0 0 0 1px rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.97);
+      color: var(--text-soft);
+      box-shadow:
+        0 24px 70px rgba(15,23,42,0.98),
+        0 0 0 1px rgba(148,163,184,0.8);
+      backdrop-filter: blur(24px);
     }
 
     dialog::backdrop {
@@ -1349,8 +1453,11 @@
     }
 
     [data-theme="light"] dialog {
-      background: rgba(255,255,255,0.99);
-      box-shadow: 0 20px 60px rgba(15,23,42,0.2), 0 0 0 1px rgba(148,163,184,0.75);
+      background: rgba(255,255,255,0.98);
+      color: var(--text-main);
+      box-shadow:
+        0 24px 70px rgba(15,23,42,0.24),
+        0 0 0 1px rgba(148,163,184,0.75);
     }
 
     .modal-title {
@@ -1361,8 +1468,8 @@
 
     .modal-body {
       font-size: 0.78rem;
-      color: var(--text-soft);
-      margin-bottom: 10px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
 
     .modal-actions {
@@ -1372,23 +1479,23 @@
       margin-top: 8px;
     }
 
-    .printable {
-      background: #ffffff;
-      color: #111827;
+    .print-view {
+      display: none;
     }
 
     @media print {
       body {
-        background: #ffffff;
+        background: #ffffff !important;
       }
-      #app-root {
-        max-width: none;
-        padding: 0;
-      }
+      .orb,
       .surface-main,
       .onboarding-shell,
       .bottom-nav-shell {
         display: none !important;
+      }
+      #app-root {
+        max-width: none;
+        padding: 0;
       }
       .print-view {
         display: block !important;
@@ -1407,13 +1514,17 @@
   </style>
 </head>
 <body>
+<div class="orb orb--cyan"></div>
+<div class="orb orb--pink"></div>
+<div class="orb orb--lime"></div>
+
 <div id="app-root" data-theme="dark"></div>
 
 <dialog id="note-dialog">
   <form method="dialog">
     <h2 class="modal-title">Notiz zur Aufgabe</h2>
     <div class="modal-body">
-      <label for="note-text" class="input-label">Kurze Notiz (z.B. „Unterlagen von Hausarzt anfordern“)</label>
+      <label for="note-text" class="input-label">Kurze Notiz (z.B. „Unterlagen vom Hausarzt anfordern“)</label>
       <textarea id="note-text" class="input-field" rows="3"></textarea>
       <p class="small" style="margin-top:4px;">
         Hinweis: Notizen werden nur lokal auf diesem Gerät gespeichert.
@@ -1426,7 +1537,7 @@
   </form>
 </dialog>
 
-<div id="print-view" class="print-view" style="display:none"></div>
+<div id="print-view" class="print-view"></div>
 
 <script>
 (function () {
@@ -1461,23 +1572,15 @@
   function loadState() {
     try {
       const profileRaw = localStorage.getItem(storageKeyProfile);
-      if (profileRaw) {
-        Object.assign(state.userProfile, JSON.parse(profileRaw));
-      }
+      if (profileRaw) Object.assign(state.userProfile, JSON.parse(profileRaw));
       const tasksRaw = localStorage.getItem(storageKeyTasks);
-      if (tasksRaw) {
-        state.tasks = JSON.parse(tasksRaw);
-      }
+      if (tasksRaw) state.tasks = JSON.parse(tasksRaw);
       const settingsRaw = localStorage.getItem(storageKeySettings);
-      if (settingsRaw) {
-        Object.assign(state.settings, JSON.parse(settingsRaw));
-      }
+      if (settingsRaw) Object.assign(state.settings, JSON.parse(settingsRaw));
       const packRaw = localStorage.getItem(storageKeyPack);
-      if (packRaw) {
-        state.packList = JSON.parse(packRaw);
-      }
+      if (packRaw) state.packList = JSON.parse(packRaw);
     } catch (e) {
-      console.error('Fehler beim Lesen aus localStorage', e);
+      console.error('Fehler beim Laden', e);
     }
   }
 
@@ -1502,137 +1605,11 @@
     };
   }
 
-  function daysBetween(todayIso, targetIso) {
-    if (!todayIso || !targetIso) return null;
-    const a = new Date(todayIso + 'T00:00:00');
-    const b = new Date(targetIso + 'T00:00:00');
-    const diffMs = b.getTime() - a.getTime();
-    return Math.round(diffMs / (1000 * 60 * 60 * 24));
-  }
-
-  function buildTimelineTemplate(opType) {
-    const template = [];
-    template.push(
-      {
-        id: 'd-14-docs',
-        phase: 'D-14',
-        daysOffset: -14,
-        title: 'Unterlagen sammeln',
-        description: 'Sammeln Sie Einweisung, Vorbefunde und wichtige Arztbriefe in einer Mappe.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd-14-meds',
-        phase: 'D-14',
-        daysOffset: -14,
-        title: 'Medikamentenliste aktualisieren',
-        description: 'Notieren Sie alle Medikamente und Allergien. Bringen Sie die Liste zur OP mit.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd-7-transport',
-        phase: 'D-7',
-        daysOffset: -7,
-        title: 'Transport organisieren',
-        description: 'Planen Sie Hinweg und Abholung nach der OP. Fragen Sie Angehörige oder Freunde.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd-7-questions',
-        phase: 'D-7',
-        daysOffset: -7,
-        title: 'Fragen notieren',
-        description: 'Schreiben Sie offene Fragen zu Ablauf, Risiken oder Nachsorge auf.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd-3-home',
-        phase: 'D-3',
-        daysOffset: -3,
-        title: 'Haushalt vorbereiten',
-        description: 'Erledigen Sie wichtige Einkäufe und bereiten Sie einfache Mahlzeiten für die ersten Tage vor.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd-1-final',
-        phase: 'D-1',
-        daysOffset: -1,
-        title: 'Letzte Absprachen prüfen',
-        description: 'Kontrollieren Sie Uhrzeit, Station und Nüchternheits-Anweisungen aus den Unterlagen.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd0-arrival',
-        phase: 'OP-Tag',
-        daysOffset: 0,
-        title: 'Pünktlich in der Klinik ankommen',
-        description: 'Planen Sie genug Zeit für die Anreise und eventuelle Verzögerungen ein.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd0-jewelry',
-        phase: 'OP-Tag',
-        daysOffset: 0,
-        title: 'Schmuck und Make-up weglassen',
-        description: 'Kommen Sie ohne Schmuck, Make-up und Nagellack, wenn möglich.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd+1-rest',
-        phase: 'D+1',
-        daysOffset: 1,
-        title: 'Schonung und Beobachtung',
-        description: 'Gönnen Sie sich Ruhe und achten Sie auf Warnzeichen wie starke Schmerzen, Fieber oder Blutung.',
-        isDone: false,
-        note: ''
-      },
-      {
-        id: 'd+7-checkup',
-        phase: 'D+7',
-        daysOffset: 7,
-        title: 'Kontrolltermin / Verbandswechsel',
-        description: 'Halten Sie sich an den Nachsorgeplan Ihrer Klinik und erscheinen Sie zu vereinbarten Terminen.',
-        isDone: false,
-        note: ''
-      }
-    );
-
-    const extraTasksByType = getOpSpecificTasks();
-    const extras = extraTasksByType[opType] || extraTasksByType.general || [];
-    template.push(...extras);
-
-    const todayIso = new Date().toLocalISODate();
-    const opDate = state.userProfile.opDate || todayIso;
-    const tasks = template.map(t => {
-      const dueDate = new Date(opDate + 'T00:00:00');
-      dueDate.setDate(dueDate.getDate() + t.daysOffset);
-      return {
-        ...t,
-        dueDate: dueDate.toLocalISODate()
-      };
-    });
-
-    tasks.sort((a, b) => {
-      const da = new Date(a.dueDate);
-      const db = new Date(b.dueDate);
-      if (da.getTime() !== db.getTime()) {
-        return da.getTime() - db.getTime();
-      }
-      if (a.daysOffset !== b.daysOffset) {
-        return a.daysOffset - b.daysOffset;
-      }
-      return a.title.localeCompare(b.title, 'de');
-    });
-
-    return tasks;
+  function daysBetween(aIso, bIso) {
+    if (!aIso || !bIso) return null;
+    const a = new Date(aIso + 'T00:00:00');
+    const b = new Date(bIso + 'T00:00:00');
+    return Math.round((b - a) / (1000 * 60 * 60 * 24));
   }
 
   function getOpSpecificTasks() {
@@ -1747,6 +1724,122 @@
     };
   }
 
+  function buildTimelineTemplate(opType) {
+    const base = [
+      {
+        id: 'd-14-docs',
+        phase: 'D-14',
+        daysOffset: -14,
+        title: 'Unterlagen sammeln',
+        description: 'Sammeln Sie Einweisung, Vorbefunde und wichtige Arztbriefe in einer Mappe.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-14-meds',
+        phase: 'D-14',
+        daysOffset: -14,
+        title: 'Medikamentenliste aktualisieren',
+        description: 'Notieren Sie alle Medikamente und Allergien. Bringen Sie die Liste zur OP mit.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-7-transport',
+        phase: 'D-7',
+        daysOffset: -7,
+        title: 'Transport organisieren',
+        description: 'Planen Sie Hinweg und Abholung nach der OP. Fragen Sie Angehörige oder Freunde.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-7-questions',
+        phase: 'D-7',
+        daysOffset: -7,
+        title: 'Fragen notieren',
+        description: 'Schreiben Sie offene Fragen zu Ablauf, Risiken oder Nachsorge auf.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-3-home',
+        phase: 'D-3',
+        daysOffset: -3,
+        title: 'Haushalt vorbereiten',
+        description: 'Erledigen Sie wichtige Einkäufe und bereiten Sie einfache Mahlzeiten für die ersten Tage vor.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd-1-final',
+        phase: 'D-1',
+        daysOffset: -1,
+        title: 'Letzte Absprachen prüfen',
+        description: 'Kontrollieren Sie Uhrzeit, Station und Nüchternheits-Anweisungen aus den Unterlagen.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd0-arrival',
+        phase: 'OP-Tag',
+        daysOffset: 0,
+        title: 'Pünktlich in der Klinik ankommen',
+        description: 'Planen Sie genug Zeit für die Anreise und eventuelle Verzögerungen ein.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd0-jewelry',
+        phase: 'OP-Tag',
+        daysOffset: 0,
+        title: 'Schmuck und Make-up weglassen',
+        description: 'Kommen Sie ohne Schmuck, Make-up und Nagellack, wenn möglich.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd+1-rest',
+        phase: 'D+1',
+        daysOffset: 1,
+        title: 'Schonung und Beobachtung',
+        description: 'Gönnen Sie sich Ruhe und achten Sie auf Warnzeichen wie starke Schmerzen, Fieber oder Blutung.',
+        isDone: false,
+        note: ''
+      },
+      {
+        id: 'd+7-checkup',
+        phase: 'D+7',
+        daysOffset: 7,
+        title: 'Kontrolltermin / Verbandswechsel',
+        description: 'Halten Sie sich an den Nachsorgeplan Ihrer Klinik und erscheinen Sie zu vereinbarten Terminen.',
+        isDone: false,
+        note: ''
+      }
+    ];
+
+    const extras = getOpSpecificTasks()[opType] || getOpSpecificTasks().general;
+    const template = base.concat(extras);
+
+    const todayIso = new Date().toLocalISODate();
+    const opDate = state.userProfile.opDate || todayIso;
+    const tasks = template.map(t => {
+      const d = new Date(opDate + 'T00:00:00');
+      d.setDate(d.getDate() + t.daysOffset);
+      return { ...t, dueDate: d.toLocalISODate() };
+    });
+
+    tasks.sort((a, b) => {
+      const da = new Date(a.dueDate);
+      const db = new Date(b.dueDate);
+      if (da - db !== 0) return da - db;
+      if (a.daysOffset !== b.daysOffset) return a.daysOffset - b.daysOffset;
+      return a.title.localeCompare(b.title, 'de');
+    });
+
+    return tasks;
+  }
+
   function getInfoContent() {
     return {
       general: {
@@ -1786,7 +1879,7 @@
           'Nach der OP wird das Bein verbunden und Sie werden im Aufwachraum überwacht.'
         ],
         preparation: [
-          'Klär en Sie im Vorgespräch, wie stark Sie das Bein nach der OP belasten dürfen.',
+          'Klären Sie im Vorgespräch, wie stark Sie das Bein nach der OP belasten dürfen.',
           'Bereiten Sie zu Hause einen gut erreichbaren Ruheplatz vor, ideal ohne viele Stufen.',
           'Organisieren Sie Hilfsmittel, falls diese empfohlen wurden (z.B. Unterarmgehstützen).',
           'Fragen Sie Ihr Behandlungsteam, ob Sie bestimmte Medikamente vor der OP pausieren sollen.'
@@ -1863,36 +1956,36 @@
       idCard: { label: 'Personalausweis oder Reisepass', note: 'Zur Identifikation in der Klinik.' },
       insuranceCard: { label: 'Krankenversicherungskarte', note: 'Gesetzlich oder privat, je nach Versicherung.' },
       referral: { label: 'Einweisung / Überweisung / Arztbriefe', note: 'Unterlagen vom Hausarzt oder Facharzt.' },
-      medsList: { label: 'Aktuelle Medikamentenliste', note: 'Mit Dosierungen und Allergien (ohne konkrete Einnahmehinweise). ' },
+      medsList: { label: 'Aktuelle Medikamentenliste', note: 'Mit Dosierungen und Allergien (ohne konkrete Einnahmehinweise).' },
       imaging: { label: 'Vorbefunde (z.B. Röntgen, MRT)', note: 'Falls vorhanden, im Zweifel nachfragen.' },
       comfortableClothes: { label: 'Bequeme Kleidung', note: 'Praktisch zum An- und Ausziehen.' },
       hygiene: { label: 'Toilettenartikel in Reisegröße', note: 'Nur das Nötigste, falls Übernachtung möglich.' },
       glasses: { label: 'Brille / Hörgeräte', note: 'Mit Etui, falls Sie diese brauchen.' },
       charger: { label: 'Ladegerät für Handy', note: 'Damit Sie erreichbar bleiben.' },
-      contactList: { label: 'Kontaktliste', note: 'Wichtige Telefonnummern (Angehörige, Hausarzt). ' },
+      contactList: { label: 'Kontaktliste', note: 'Wichtige Telefonnummern (Angehörige, Hausarzt).' },
       payment: { label: 'Etwas Bargeld oder Karte', note: 'Für kleine Ausgaben in der Klinik.' }
     };
-    const persisted = {};
+    const merged = {};
     Object.keys(defaults).forEach(key => {
-      persisted[key] = {
+      merged[key] = {
         ...defaults[key],
         checked: state.packList[key] ? !!state.packList[key].checked : false
       };
     });
-    state.packList = persisted;
+    state.packList = merged;
     savePackList();
   }
 
-  function saveTaskNote(taskId, note) {
-    const idx = state.tasks.findIndex(t => t.id === taskId);
+  function saveTaskNote(id, note) {
+    const idx = state.tasks.findIndex(t => t.id === id);
     if (idx >= 0) {
       state.tasks[idx].note = note;
       saveTasks();
     }
   }
 
-  function toggleTaskDone(taskId) {
-    const idx = state.tasks.findIndex(t => t.id === taskId);
+  function toggleTaskDone(id) {
+    const idx = state.tasks.findIndex(t => t.id === id);
     if (idx >= 0) {
       state.tasks[idx].isDone = !state.tasks[idx].isDone;
       saveTasks();
@@ -1947,12 +2040,9 @@
     if (newDate) {
       const oldTasks = state.tasks;
       const newTemplate = buildTimelineTemplate(state.userProfile.opType);
-      const merged = newTemplate.map(newTask => {
-        const existing = oldTasks.find(o => o.id === newTask.id);
-        if (existing) {
-          return { ...newTask, isDone: existing.isDone, note: existing.note };
-        }
-        return newTask;
+      const merged = newTemplate.map(nt => {
+        const ex = oldTasks.find(o => o.id === nt.id);
+        return ex ? { ...nt, isDone: ex.isDone, note: ex.note } : nt;
       });
       state.tasks = merged;
       saveTasks();
@@ -1966,17 +2056,48 @@
     if (state.userProfile.opDate) {
       const oldTasks = state.tasks;
       const newTemplate = buildTimelineTemplate(newType);
-      const merged = newTemplate.map(newTask => {
-        const existing = oldTasks.find(o => o.id === newTask.id);
-        if (existing) {
-          return { ...newTask, isDone: existing.isDone, note: existing.note };
-        }
-        return newTask;
+      const merged = newTemplate.map(nt => {
+        const ex = oldTasks.find(o => o.id === nt.id);
+        return ex ? { ...nt, isDone: ex.isDone, note: ex.note } : nt;
       });
       state.tasks = merged;
       saveTasks();
     }
     render();
+  }
+
+  function formatDateReadable(iso) {
+    if (!iso) return '-';
+    const d = new Date(iso + 'T00:00:00');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = d.getFullYear();
+    return `${dd}.${mm}.${yy}`;
+  }
+
+  function formatRelativeDateLabel(iso) {
+    const today = new Date().toLocalISODate();
+    const diff = daysBetween(today, iso);
+    if (diff === 0) return 'Heute';
+    if (diff === 1) return 'Morgen';
+    if (diff === -1) return 'Gestern';
+    if (diff > 1) return `In ${diff} Tagen (${formatDateReadable(iso)})`;
+    return `Vor ${Math.abs(diff)} Tagen (${formatDateReadable(iso)})`;
+  }
+
+  function getUpcomingTasks() {
+    const today = new Date().toLocalISODate();
+    const open = state.tasks.filter(t => {
+      const diff = daysBetween(today, t.dueDate);
+      return diff !== null && diff >= 0 && !t.isDone;
+    });
+    open.sort((a, b) => {
+      const da = new Date(a.dueDate);
+      const db = new Date(b.dueDate);
+      if (da - db !== 0) return da - db;
+      return a.title.localeCompare(b.title, 'de');
+    });
+    return open.slice(0, 3);
   }
 
   function render() {
@@ -1989,7 +2110,7 @@
       return;
     }
 
-    if (!state.packList || Object.keys(state.packList).length === 0) {
+    if (!Object.keys(state.packList).length) {
       buildPackListDefaults();
     }
 
@@ -1999,26 +2120,30 @@
 
   function renderOnboarding() {
     const step = state.settings.onboardingStep || 1;
-    let content = '';
     if (step === 1) {
-      content = `
+      return `
         <section class="onboarding-shell" aria-label="SurgeryPrep Onboarding">
           <div class="onboard-card">
             <div class="onboard-step-pill">
-              <span class="onboard-step-dot" aria-hidden="true"></span>
-              <span>Schritt 1 von 3 · Start</span>
+              <span class="onboard-step-dot"></span>
+              <span>Schritt 1 von 3 · Überblick</span>
             </div>
             <h1 class="onboard-title">Willkommen bei SurgeryPrep</h1>
             <p class="onboard-subtitle">
-              Diese App hilft Ihnen, sich auf eine Operation vorzubereiten. Sie erhalten eine einfache Checkliste,
-              allgemeine Informationen und Hinweise zu Warnzeichen.
+              SurgeryPrep hilft Ihnen, Ihre Operation im Blick zu behalten: mit verständlichen Infos, einer persönlichen Timeline und einer Packliste.
             </p>
             <div class="onboard-body">
-              <p><strong>Wichtig:</strong> Die App ersetzt keine ärztliche Beratung. Sie gibt nur allgemeine Informationen.</p>
+              <p><strong>Was die App kann:</strong></p>
               <ul class="bullets">
-                <li>Keine individuellen Therapieentscheidungen oder Dosierungen.</li>
-                <li>Bei Fragen wenden Sie sich bitte an Ihr Behandlungsteam.</li>
-                <li>Im Notfall rufen Sie die 112 an.</li>
+                <li>Einfache Aufgabenliste vor und nach der OP.</li>
+                <li>Kurze Erklärungen zum Ablauf Ihres Eingriffs.</li>
+                <li>Hinweise auf wichtige Warnzeichen.</li>
+              </ul>
+              <p><strong>Was sie nicht kann:</strong></p>
+              <ul class="bullets">
+                <li>Keine Diagnose, keine Therapie-Vorschläge.</li>
+                <li>Keine Angaben zu Dosierungen oder Medikamenten.</li>
+                <li>Sie ersetzt niemals ein Gespräch mit Ihrem Behandlungsteam.</li>
               </ul>
             </div>
             <div class="onboard-actions">
@@ -2030,43 +2155,39 @@
         </section>
       `;
     } else if (step === 2) {
-      content = `
+      return `
         <section class="onboarding-shell" aria-label="Haftung und Datenschutz">
           <div class="onboard-card">
             <div class="onboard-step-pill">
-              <span class="onboard-step-dot" aria-hidden="true"></span>
+              <span class="onboard-step-dot"></span>
               <span>Schritt 2 von 3 · Haftung & Datenschutz</span>
             </div>
             <h1 class="onboard-title">Haftungsausschluss & Datenschutz</h1>
             <div class="onboard-body">
               <p><strong>Medizinischer Hinweis:</strong></p>
               <ul class="bullets">
-                <li>Die Inhalte sind allgemein und können Ihre persönliche Situation nicht vollständig abbilden.</li>
-                <li>Sie dürfen Entscheidungen zu Diagnostik oder Behandlung nicht allein auf Basis dieser App treffen.</li>
-                <li>Folgen Sie immer den Anweisungen Ihres Behandlungsteams.</li>
+                <li>Die App gibt nur allgemeine Informationen in verständlicher Sprache.</li>
+                <li>Sie ersetzt keine ärztliche Beratung oder Untersuchung.</li>
+                <li>Treffen Sie keine Therapie-Entscheidungen nur auf Basis dieser App.</li>
               </ul>
               <p><strong>Datenschutz (DSGVO):</strong></p>
               <ul class="bullets">
-                <li>Ihre Eingaben (z.B. OP-Datum, OP-Typ) werden nur lokal in diesem Browser gespeichert.</li>
-                <li>Es gibt keine Registrierung, kein Tracking und keine Übertragung an einen Server.</li>
-                <li>Sie können die Daten jederzeit in den Einstellungen löschen.</li>
+                <li>Ihre Angaben (z.B. OP-Datum, OP-Typ) werden nur lokal auf diesem Gerät gespeichert.</li>
+                <li>Es gibt keine Registrierung, keinen Server und kein Tracking.</li>
+                <li>Sie können alle Daten jederzeit in den Einstellungen löschen.</li>
               </ul>
-              <div class="input-inline" style="margin-top:6px;">
+              <div class="input-inline">
                 <input type="checkbox" id="chk-disclaimer" class="input-checkbox" ${state.userProfile.disclaimerAccepted ? 'checked' : ''}>
-                <label for="chk-disclaimer" class="input-checkbox-label">
-                  Ich habe den medizinischen Hinweis gelesen und verstanden.
-                </label>
+                <label for="chk-disclaimer">Ich habe den medizinischen Hinweis gelesen und verstanden.</label>
               </div>
               <div class="input-inline">
                 <input type="checkbox" id="chk-privacy" class="input-checkbox" ${state.userProfile.privacyAccepted ? 'checked' : ''}>
-                <label for="chk-privacy" class="input-checkbox-label">
-                  Ich bin damit einverstanden, dass meine Angaben lokal im Browser gespeichert werden.
-                </label>
+                <label for="chk-privacy">Ich bin einverstanden, dass meine Eingaben lokal gespeichert werden.</label>
               </div>
             </div>
             <div class="onboard-actions">
-              <button class="btn-primary" id="btn-onb-2-next" ${state.userProfile.disclaimerAccepted && state.userProfile.privacyAccepted ? '' : 'disabled style="opacity:0.6; cursor:not-allowed;"'}>
-                Weiter · OP-Daten eingeben
+              <button class="btn-primary" id="btn-onb-2-next" ${state.userProfile.disclaimerAccepted && state.userProfile.privacyAccepted ? '' : 'disabled style="opacity:0.55;cursor:not-allowed;"'}>
+                Weiter · OP-Daten
               </button>
               <button class="btn-secondary" id="btn-onb-2-back">
                 Zurück
@@ -2076,16 +2197,16 @@
         </section>
       `;
     } else {
-      content = `
+      return `
         <section class="onboarding-shell" aria-label="OP-Daten">
           <div class="onboard-card">
             <div class="onboard-step-pill">
-              <span class="onboard-step-dot" aria-hidden="true"></span>
+              <span class="onboard-step-dot"></span>
               <span>Schritt 3 von 3 · OP-Daten</span>
             </div>
             <h1 class="onboard-title">Ihre Operation</h1>
             <p class="onboard-subtitle">
-              Diese Angaben werden nur genutzt, um Ihre persönliche Timeline im Kalender zu berechnen.
+              Mit diesen Angaben erstellt die App eine persönliche Timeline rund um Ihren OP-Termin.
             </p>
             <div class="onboard-body">
               <div class="input-row">
@@ -2113,14 +2234,12 @@
                 <label for="onb-emergency" class="input-label">Notfallkontakt (Name/Telefon, optional)</label>
                 <input id="onb-emergency" class="input-field" type="text" placeholder="z.B. Partner, Eltern" value="${state.userProfile.emergencyContact || ''}">
               </div>
-              <div class="input-inline" style="margin-top:6px;">
+              <div class="input-inline">
                 <input type="checkbox" id="onb-reminders" class="input-checkbox" ${state.userProfile.wantsReminders ? 'checked' : ''}>
-                <label for="onb-reminders" class="input-checkbox-label">
-                  Ich möchte an Aufgaben erinnert werden (wenn im Browser möglich).
-                </label>
+                <label for="onb-reminders">Ich möchte an Aufgaben erinnert werden (wenn im Browser möglich).</label>
               </div>
-              <p class="muted-helper">
-                Hinweis: Die Erinnerungsfunktion ist ein einfacher In-App-Hinweis. Es werden keine Daten an einen Server gesendet.
+              <p class="small">
+                Hinweis: Die Erinnerungsfunktion arbeitet nur auf diesem Gerät. Es werden keine Daten an einen Server gesendet.
               </p>
             </div>
             <div class="onboard-actions">
@@ -2135,16 +2254,13 @@
         </section>
       `;
     }
-    return content;
   }
 
   function attachOnboardingHandlers() {
     const root = document.getElementById('app-root');
     const step = state.settings.onboardingStep || 1;
-
     if (step === 1) {
-      const btnNext = root.querySelector('#btn-onb-1-next');
-      btnNext?.addEventListener('click', () => {
+      root.querySelector('#btn-onb-1-next')?.addEventListener('click', () => {
         state.settings.onboardingStep = 2;
         saveSettings();
         render();
@@ -2155,24 +2271,28 @@
       const btnNext = root.querySelector('#btn-onb-2-next');
       const btnBack = root.querySelector('#btn-onb-2-back');
 
-      const updateBtnState = () => {
+      const updateNext = () => {
         const ready = chkDisclaimer.checked && chkPrivacy.checked;
         btnNext.disabled = !ready;
-        btnNext.style.opacity = ready ? '1' : '0.6';
-        btnNext.style.cursor = ready ? 'pointer' : 'not-allowed';
+        if (!ready) {
+          btnNext.style.opacity = '0.55';
+          btnNext.style.cursor = 'not-allowed';
+        } else {
+          btnNext.style.opacity = '1';
+          btnNext.style.cursor = 'pointer';
+        }
       };
 
       chkDisclaimer?.addEventListener('change', () => {
         state.userProfile.disclaimerAccepted = chkDisclaimer.checked;
         saveProfile();
-        updateBtnState();
+        updateNext();
       });
       chkPrivacy?.addEventListener('change', () => {
         state.userProfile.privacyAccepted = chkPrivacy.checked;
         saveProfile();
-        updateBtnState();
+        updateNext();
       });
-
       btnNext?.addEventListener('click', () => {
         if (!chkDisclaimer.checked || !chkPrivacy.checked) return;
         state.settings.onboardingStep = 3;
@@ -2184,7 +2304,7 @@
         saveSettings();
         render();
       });
-    } else if (step === 3) {
+    } else {
       const inputDate = root.querySelector('#onb-op-date');
       const inputType = root.querySelector('#onb-op-type');
       const inputHospital = root.querySelector('#onb-hospital');
@@ -2210,7 +2330,6 @@
 
         state.tasks = buildTimelineTemplate(state.userProfile.opType);
         saveTasks();
-
         state.settings.activeTab = 'dashboard';
         saveSettings();
         render();
@@ -2228,122 +2347,121 @@
     const opDate = state.userProfile.opDate;
     const today = new Date().toLocalISODate();
     const diff = daysBetween(today, opDate);
+    const info = getInfoContent()[state.userProfile.opType] || getInfoContent().general;
+
     let countdownLabel = '';
     let statusTagHtml = '';
     if (diff === null) {
       countdownLabel = 'Bitte OP-Datum eingeben.';
-      statusTagHtml = `<span class="status-tag"><span class="status-dot status-dot-warn"></span>Datum fehlt</span>`;
+      statusTagHtml = `<div class="status-tag"><span class="status-dot status-dot-warn"></span><span>Datum fehlt</span></div>`;
     } else if (diff > 0) {
       countdownLabel = `Noch ${diff} Tag${diff === 1 ? '' : 'e'} bis zur OP.`;
-      statusTagHtml = `<span class="status-tag"><span class="status-dot"></span>In Vorbereitung</span>`;
+      statusTagHtml = `<div class="status-tag"><span class="status-dot"></span><span>In Vorbereitung</span></div>`;
     } else if (diff === 0) {
       countdownLabel = 'Heute ist Ihr OP-Tag.';
-      statusTagHtml = `<span class="status-tag"><span class="status-dot status-dot-warn"></span>Heute</span>`;
+      statusTagHtml = `<div class="status-tag"><span class="status-dot status-dot-warn"></span><span>Heute</span></div>`;
     } else {
       countdownLabel = `Die OP liegt ${Math.abs(diff)} Tag${Math.abs(diff) === 1 ? '' : 'e'} zurück.`;
-      statusTagHtml = `<span class="status-tag"><span class="status-dot status-dot-warn"></span>Nach der OP</span>`;
+      statusTagHtml = `<div class="status-tag"><span class="status-dot status-dot-warn"></span><span>Nach der OP</span></div>`;
     }
 
-    const infoContent = getInfoContent();
-    const opLabel = infoContent[state.userProfile.opType]?.label || 'Unbekannte OP';
-
-    const upcomingTasks = getUpcomingTasks();
+    const upcoming = getUpcomingTasks();
+    const completedCount = state.tasks.filter(t => t.isDone).length;
+    const totalCount = state.tasks.length;
+    const progress = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
 
     let nextTasksHtml = '';
-    if (upcomingTasks.length === 0) {
-      nextTasksHtml = `
-        <li class="txt-muted">
-          Keine offenen Aufgaben für die nächsten Tage. Prüfen Sie die Timeline für weitere Details.
-        </li>
-      `;
+    if (!upcoming.length) {
+      nextTasksHtml = `<li class="txt-muted">Keine offenen Aufgaben in den nächsten Tagen. Schauen Sie in der Timeline nach weiteren Punkten.</li>`;
     } else {
-      nextTasksHtml = upcomingTasks.map(t => `
-        <li class="task-pill" data-open-tab="timeline">
-          <div class="task-pill-main">
-            <div class="task-pill-title">${t.title}</div>
-            <div class="task-pill-meta">
-              <strong>${formatRelativeDateLabel(t.dueDate)}</strong>
-              · ${t.description}
+      nextTasksHtml = upcoming.map(t => `
+        <li class="pill-task" data-open-tab="timeline">
+          <div class="pill-task-main">
+            <div class="pill-task-title">${t.title}</div>
+            <div class="pill-task-meta">
+              <strong>${formatRelativeDateLabel(t.dueDate)}</strong> · ${t.description}
             </div>
           </div>
-          <div style="font-size:0.9rem; color:${t.isDone ? '#22c55e' : '#e5e7eb'};" aria-hidden="true">
-            ${t.isDone ? '✓' : '›'}
-          </div>
+          <div class="pill-task-chevron" aria-hidden="true">${t.isDone ? '✓' : '›'}</div>
         </li>
       `).join('');
     }
 
-    const completedCount = state.tasks.filter(t => t.isDone).length;
-    const totalCount = state.tasks.length;
-    const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-
     return `
       <div class="app-shell" aria-label="SurgeryPrep App">
         <section class="surface-main">
-          <header class="surface-header" aria-label="App Kopfbereich">
-            <div class="brand">
-              <div class="brand-logo" aria-hidden="true">
-                <div class="brand-logo-inner">SP</div>
+          <div class="surface-content">
+            <header class="surface-header">
+              <div class="brand">
+                <div class="brand-logo">
+                  <div class="brand-logo-inner">SP</div>
+                </div>
+                <div>
+                  <div class="brand-text-main">
+                    <span>SurgeryPrep</span>
+                    <span>Beta</span>
+                  </div>
+                  <div class="brand-text-sub">
+                    OP-Vorbereitung, klar und verständlich
+                  </div>
+                </div>
               </div>
-              <div>
-                <div class="brand-text-main">SurgeryPrep</div>
-                <div class="brand-text-sub">Ihre OP-Vorbereitung im Überblick</div>
-              </div>
-            </div>
-            <button class="btn-icon-ghost" id="btn-theme-toggle" aria-label="Darstellung wechseln (Hell/Dunkel)">
-              <span role="img" aria-hidden="true">${state.settings.theme === 'light' ? '🌙' : '☀️'}</span>
-            </button>
-          </header>
+              <button class="btn-icon" id="btn-theme-toggle" aria-label="Darstellung wechseln (hell/dunkel)">
+                <span>${state.settings.theme === 'light' ? '🌙' : '☀️'}</span>
+                <span>${state.settings.theme === 'light' ? 'Dunkel' : 'Hell'}</span>
+              </button>
+            </header>
 
-          <div class="header-sub">
-            <div class="header-sub-left">
-              <div class="badge-date" aria-label="OP-Datum">
-                <div class="badge-date-icon" aria-hidden="true">📅</div>
-                <span>${opDate ? `OP am ${formatDateReadable(opDate)}` : 'OP-Datum noch nicht gesetzt'}</span>
+            <div class="header-sub">
+              <div class="header-sub-left">
+                <div class="badge-date" aria-label="OP-Datum">
+                  <div class="badge-date-icon">📅</div>
+                  <span>${opDate ? `OP am ${formatDateReadable(opDate)}` : 'OP-Datum noch nicht gesetzt'}</span>
+                </div>
+                ${statusTagHtml}
               </div>
-              ${statusTagHtml}
+              <div class="chip-glass chip-glass-warning">
+                <span class="chip-glass-dot"></span>
+                <span>Infos ersetzen keine ärztliche Beratung</span>
+              </div>
             </div>
-            <div class="pill-meta">
-              <span class="pill-meta-dot" aria-hidden="true"></span>
-              <span>Infos ersetzen keine ärztliche Beratung</span>
-            </div>
+
+            <main class="section-scroll" aria-live="polite">
+              ${renderActiveTab({
+                diff,
+                countdownLabel,
+                infoLabel: info.label,
+                upcomingHtml: nextTasksHtml,
+                progress,
+                completedCount,
+                totalCount
+              })}
+            </main>
           </div>
-
-          <main class="section-scroll" aria-live="polite">
-            ${renderActiveTab({
-              opLabel,
-              diff,
-              countdownLabel,
-              nextTasksHtml,
-              progress,
-              completedCount,
-              totalCount
-            })}
-          </main>
         </section>
       </div>
 
       <nav class="bottom-nav-shell" aria-label="Hauptnavigation">
         <div class="bottom-nav">
           <button class="nav-btn ${state.settings.activeTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard">
-            <span class="nav-btn-icon" aria-hidden="true">🏠</span>
+            <span class="nav-btn-icon">🏠</span>
             <span>Start</span>
           </button>
           <button class="nav-btn ${state.settings.activeTab === 'timeline' ? 'active' : ''}" data-tab="timeline">
-            <span class="nav-btn-icon" aria-hidden="true">✅</span>
+            <span class="nav-btn-icon">✅</span>
             <span>Timeline</span>
           </button>
           <button class="nav-btn ${state.settings.activeTab === 'info' ? 'active' : ''}" data-tab="info">
-            <span class="nav-btn-icon" aria-hidden="true">📘</span>
+            <span class="nav-btn-icon">📘</span>
             <span>OP-Infos</span>
           </button>
           <button class="nav-btn ${state.settings.activeTab === 'warn' ? 'active' : ''}" data-tab="warn">
-            <span class="nav-btn-icon" aria-hidden="true">⚠️</span>
-            <span>Warnzeichen</span>
+            <span class="nav-btn-icon">⚠️</span>
+            <span>Warn</span>
           </button>
           <button class="nav-btn ${state.settings.activeTab === 'docs' ? 'active' : ''}" data-tab="docs">
-            <span class="nav-btn-icon" aria-hidden="true">🧳</span>
-            <span>Dokumente</span>
+            <span class="nav-btn-icon">🧳</span>
+            <span>Dok.</span>
           </button>
         </div>
       </nav>
@@ -2368,22 +2486,22 @@
     }
   }
 
-  function renderDashboardTab({ opLabel, diff, countdownLabel, nextTasksHtml, progress, completedCount, totalCount }) {
+  function renderDashboardTab({ diff, countdownLabel, infoLabel, upcomingHtml, progress, completedCount, totalCount }) {
     return `
       <section aria-label="Dashboard">
         <article class="block">
           <div class="block-header-row">
             <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">⏱</div>
+              <div class="block-title-icon">⏱</div>
               <span>Countdown zur OP</span>
             </div>
-            <span class="badge-soft badge-soft-neutral">${opLabel}</span>
+            <span class="badge-soft badge-soft-accent">${infoLabel}</span>
           </div>
           <div class="grid-two">
-            <div class="countdown">
+            <div class="countdown-card">
               <div class="countdown-row">
                 <div class="countdown-main">
-                  <span class="countdown-number">${diff === null ? '-' : Math.abs(diff)}</span>
+                  <div class="countdown-number">${diff === null ? '-' : Math.abs(diff)}</div>
                   <div>
                     <div class="countdown-label">
                       ${diff === null ? 'Tage' : diff === 0 ? 'heute' : diff > 0 ? 'Tage bis zur OP' : 'Tage seit der OP'}
@@ -2395,18 +2513,17 @@
             </div>
             <div>
               <p class="txt-muted">
-                Rechts sehen Sie den Fortschritt Ihrer Aufgaben. Nutzen Sie die Timeline,
-                um nichts Wichtiges zu vergessen.
+                Hier sehen Sie, wie weit Sie mit Ihren Aufgaben sind. Die Timeline hilft Ihnen,
+                Schritt für Schritt nichts Wichtiges zu vergessen.
               </p>
-              <div class="progress-bar-shell" aria-label="Fortschritt erledigter Aufgaben">
-                <div class="progress-bar-inner" style="width:${progress}%"></div>
+              <div class="progress-shell" aria-label="Fortschritt erledigter Aufgaben">
+                <div class="progress-inner" style="width:${progress}%"></div>
               </div>
               <div class="row-space">
-                <span class="txt-muted">
-                  ${completedCount} von ${totalCount} Aufgaben erledigt
-                </span>
-                <button class="btn-inline" data-open-tab="timeline">
-                  Zur Timeline
+                <span class="txt-muted">${completedCount} von ${totalCount} Aufgaben erledigt</span>
+                <button class="btn-chic-ghost" data-open-tab="timeline">
+                  <span>✅</span>
+                  <span>Zur Timeline</span>
                 </button>
               </div>
             </div>
@@ -2416,40 +2533,37 @@
         <article class="block">
           <div class="block-header-row">
             <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">📝</div>
+              <div class="block-title-icon">📝</div>
               <span>Nächste Schritte</span>
             </div>
-            <span class="badge-soft badge-soft-cta">Top 3 Aufgaben</span>
+            <span class="badge-soft badge-soft-accent">Top 3 Aufgaben</span>
           </div>
           <ul class="list-compact">
-            ${nextTasksHtml}
+            ${upcomingHtml}
           </ul>
-          <p class="muted-helper">
-            Tipp: Tippen Sie in der Timeline auf eine Aufgabe, um Notizen zu ergänzen oder den Status zu ändern.
+          <p class="help-text">
+            Tipp: In der Timeline können Sie Aufgaben abhaken und eigene Notizen hinterlegen,
+            zum Beispiel Telefonate oder Rückfragen.
           </p>
         </article>
 
         <article class="block">
           <div class="block-header-row">
             <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">📘</div>
+              <div class="block-title-icon">💡</div>
               <span>Wie nutze ich die Timeline?</span>
             </div>
-            <span class="badge-soft">Hilfe</span>
+            <span class="badge-soft">Kurz erklärt</span>
           </div>
           <div class="tab-content">
-            <p>
-              Die Timeline zeigt Aufgaben in der Reihenfolge, wie sie rund um den OP-Termin anstehen.
-              Jede Aufgabe hat eine kurze Erklärung.
-            </p>
             <ul class="bullets">
-              <li>Schalten Sie Aufgaben auf „erledigt“, wenn Sie den Punkt abgehakt haben.</li>
-              <li>Sie können zu jeder Aufgabe eine kurze Notiz speichern, z.B. Rückruftermine.</li>
-              <li>Mit Filtern sehen Sie nur offene oder bereits erledigte Aufgaben.</li>
-              <li>Wenn sich das OP-Datum ändert, wird die Timeline automatisch neu berechnet.</li>
+              <li>Die Aufgaben sind entlang Ihres OP-Datums sortiert (D-14 bis D+7).</li>
+              <li>Setzen Sie ein Häkchen, wenn Sie einen Punkt erledigt haben.</li>
+              <li>Über „Notiz hinzufügen“ können Sie persönliche Erinnerungen speichern.</li>
+              <li>Wenn sich Ihr OP-Termin verschiebt, passen Sie das Datum in den Einstellungen an.</li>
             </ul>
-            <p class="muted-helper">
-              Hinweis: Die Timeline ersetzt keine Checkliste Ihrer Klinik, sondern soll diese ergänzen.
+            <p class="help-text">
+              Wichtig: Diese App ergänzt nur die Unterlagen Ihrer Klinik und ersetzt diese nicht.
             </p>
           </div>
         </article>
@@ -2459,47 +2573,42 @@
 
   function renderTimelineTab() {
     const filter = state.settings.timelineFilter || 'all';
-    const today = new Date().toLocalISODate();
     let tasks = [...state.tasks];
-    if (filter === 'open') {
-      tasks = tasks.filter(t => !t.isDone);
-    } else if (filter === 'done') {
-      tasks = tasks.filter(t => t.isDone);
-    }
+    if (filter === 'open') tasks = tasks.filter(t => !t.isDone);
+    if (filter === 'done') tasks = tasks.filter(t => t.isDone);
 
     return `
       <section aria-label="Timeline & Checkliste">
         <article class="block">
           <div class="block-header-row">
             <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">✅</div>
+              <div class="block-title-icon">✅</div>
               <span>Timeline zur OP</span>
             </div>
-            <button class="btn-inline-secondary" id="btn-change-opdate">
-              <span aria-hidden="true">🗓</span> OP-Datum ändern
+            <button class="btn-chic-ghost" id="btn-change-opdate">
+              <span>🗓</span>
+              <span>OP-Datum anpassen</span>
             </button>
           </div>
           <div class="timeline-filter-row">
             <div class="segmented" role="radiogroup" aria-label="Aufgabenfilter">
               <button type="button" class="${filter === 'all' ? 'active' : ''}" data-filter="all">
-                <span>Alle</span>
+                <span>●</span><span>Alle</span>
               </button>
               <button type="button" class="${filter === 'open' ? 'active' : ''}" data-filter="open">
-                <span>Offen</span>
+                <span>○</span><span>Offen</span>
               </button>
               <button type="button" class="${filter === 'done' ? 'active' : ''}" data-filter="done">
-                <span>Erledigt</span>
+                <span>✓</span><span>Erledigt</span>
               </button>
             </div>
-            <span class="txt-muted">
-              Aufgaben insgesamt: ${state.tasks.length}
-            </span>
+            <span class="txt-muted">Aufgaben insgesamt: ${state.tasks.length}</span>
           </div>
-          <ul class="timeline-list" aria-label="Aufgabenliste">
+          <ul class="timeline-list">
             ${tasks.map(renderTaskCard).join('')}
           </ul>
-          <p class="muted-helper">
-            Hinweis: Diese Aufgaben sind allgemein gehalten. Folgen Sie immer zusätzlich den konkreten Anweisungen Ihres Behandlungsteams.
+          <p class="help-text">
+            Hinweis: Die Timeline ist allgemein gehalten. Halten Sie sich immer zusätzlich an den individuellen Plan Ihrer Klinik.
           </p>
         </article>
       </section>
@@ -2508,563 +2617,25 @@
 
   function renderTaskCard(task) {
     const today = new Date().toLocalISODate();
-    const diffDays = daysBetween(today, task.dueDate);
-    const dateLabel = formatRelativeDateLabel(task.dueDate);
-
+    const diff = daysBetween(today, task.dueDate);
+    const label = diff === 0 ? 'Heute' : diff > 0 ? `In ${diff} Tag${diff === 1 ? '' : 'en'}` : `Vor ${Math.abs(diff)} Tag${Math.abs(diff) === 1 ? '' : 'en'}`;
     return `
       <li class="task-card" data-task-id="${task.id}">
         <div class="task-phase">
           <span class="task-phase-pill">${task.phase}</span>
-          <span>${dateLabel}</span>
+          <span>${formatRelativeDateLabel(task.dueDate)}</span>
         </div>
         <div class="task-main">
           <div class="task-main-header">
             <div class="task-main-title">${task.title}</div>
-            <div>
-              <label class="chip chip-primary" style="cursor:pointer;">
-                <input type="checkbox" ${task.isDone ? 'checked' : ''} style="margin-right:4px;" data-task-toggle="${task.id}">
-                erledigt
-              </label>
-            </div>
+            <label class="toggle-pill">
+              <input type="checkbox" ${task.isDone ? 'checked' : ''} data-task-toggle="${task.id}">
+              erledigt
+            </label>
           </div>
-          <div class="task-main-desc">
-            ${task.description}
-          </div>
+          <div class="task-main-desc">${task.description}</div>
           <div class="task-main-footer">
             <div class="task-actions">
               <button class="btn-link" type="button" data-task-note="${task.id}">
                 ${task.note ? 'Notiz bearbeiten' : 'Notiz hinzufügen'}
-              </button>
-              ${task.note ? `<span class="chip"><span class="note-badge" aria-hidden="true">★</span> Notiz gespeichert</span>` : ''}
-            </div>
-            <span class="txt-muted">
-              ${diffDays === 0 ? 'Heute' : diffDays > 0 ? `In ${diffDays} Tag${diffDays === 1 ? '' : 'en'}` : `Vor ${Math.abs(diffDays)} Tag${Math.abs(diffDays) === 1 ? '' : 'en'}`}
-            </span>
-          </div>
-          ${task.note ? `<div class="text-note">${task.note}</div>` : ''}
-        </div>
-      </li>
-    `;
-  }
-
-  function renderInfoTab() {
-    const info = getInfoContent()[state.userProfile.opType] || getInfoContent().general;
-    const tab = state.settings.infoTab || 'procedure';
-
-    const contentMap = {
-      procedure: info.procedure,
-      preparation: info.preparation,
-      aftercare: info.aftercare,
-      faq: info.faq
-    };
-    const activeContent = contentMap[tab] || [];
-
-    const tabLabel = {
-      procedure: 'Ablauf',
-      preparation: 'Vorbereitung',
-      aftercare: 'Nach der OP',
-      faq: 'Häufige Fragen'
-    };
-
-    return `
-      <section aria-label="OP-Informationen">
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">📘</div>
-              <span>OP-Infos · ${info.label}</span>
-            </div>
-            <span class="badge-soft">Allgemeine Hinweise</span>
-          </div>
-          <div class="tabs-header" role="tablist" aria-label="OP-Info Bereiche">
-            <button class="tab-pill ${tab === 'procedure' ? 'active' : ''}" data-info-tab="procedure" role="tab">
-              <span aria-hidden="true">🩺</span>
-              <span>Ablauf</span>
-            </button>
-            <button class="tab-pill ${tab === 'preparation' ? 'active' : ''}" data-info-tab="preparation" role="tab">
-              <span aria-hidden="true">📋</span>
-              <span>Vorbereitung</span>
-            </button>
-            <button class="tab-pill ${tab === 'aftercare' ? 'active' : ''}" data-info-tab="aftercare" role="tab">
-              <span aria-hidden="true">💤</span>
-              <span>Nach der OP</span>
-            </button>
-            <button class="tab-pill ${tab === 'faq' ? 'active' : ''}" data-info-tab="faq" role="tab">
-              <span aria-hidden="true">❓</span>
-              <span>Fragen</span>
-            </button>
-          </div>
-          <div class="tab-content" aria-label="${tabLabel[tab]}">
-            <ul class="bullets">
-              ${activeContent.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-            <p class="muted-helper">
-              Hinweis: Konkrete Angaben zu Medikamenten, Narkose oder individuellen Risiken erhalten Sie nur von Ihrem Behandlungsteam.
-            </p>
-          </div>
-        </article>
-      </section>
-    `;
-  }
-
-  function renderWarnTab() {
-    const phone = state.userProfile.hospitalPhone;
-    return `
-      <section aria-label="Warnzeichen">
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">⚠️</div>
-              <span>Warnzeichen · Wann Hilfe holen?</span>
-            </div>
-            <span class="badge-soft-danger">Im Zweifel früh Hilfe holen</span>
-          </div>
-          <ul class="warn-list">
-            ${renderWarnItem('Starke oder zunehmende Schmerzen', 'Wenn Ihre Schmerzen trotz Behandlung deutlich zunehmen oder neu auftreten, sollten Sie zeitnah Ihr Behandlungsteam kontaktieren.')}
-            ${renderWarnItem('Starke Blutung', 'Wenn eine Wunde stark blutet oder sich nicht mit einfachem Druck beruhigen lässt, holen Sie schnell ärztliche Hilfe.')}
-            ${renderWarnItem('Atemnot oder Brustschmerz', 'Plötzliche Atemnot, Brustschmerzen oder Engegefühl in der Brust sind Notfallsymptome.')}
-            ${renderWarnItem('Fieber', 'Anhaltendes Fieber (z.B. über 38 °C) nach einer Operation sollte ärztlich abgeklärt werden.')}
-            ${renderWarnItem('Rötung, Schwellung, Nässen', 'Eine stark gerötete, geschwollene oder nässende Wunde kann auf eine Entzündung hinweisen.')}
-            ${renderWarnItem('Verwirrtheit oder Bewusstseinsstörungen', 'Neue Verwirrtheit, starke Schläfrigkeit oder Bewusstseinsstörungen sind Warnzeichen.')}
-            ${renderWarnItem('Starke Übelkeit oder Erbrechen', 'Wenn Sie kaum trinken können oder sich häufig erbrechen, sollten Sie ärztlichen Rat einholen.')}
-            ${renderWarnItem('Unsicherheit oder schlechtes Bauchgefühl', 'Wenn Sie unsicher sind oder sich deutlich schlechter fühlen, ist es sinnvoll, frühzeitig medizinischen Rat einzuholen.')}
-          </ul>
-          <div class="danger-cta" aria-label="Notfallhinweis">
-            <div class="danger-cta-icon" aria-hidden="true">🚑</div>
-            <div class="danger-cta-main">
-              <div class="danger-cta-title">Akuter Notfall</div>
-              <div class="danger-cta-text">
-                Bei lebensbedrohlichen Beschwerden (z.B. starke Atemnot, Bewusstlosigkeit, schwere Brustschmerzen) rufen Sie sofort den Notruf 112 an.
-              </div>
-              <button class="btn-112" type="button" onclick="window.location.href='tel:112'">
-                <span aria-hidden="true">📞</span>
-                <span>Notruf 112 wählen</span>
-              </button>
-            </div>
-          </div>
-          ${phone ? `
-          <div class="toolbar-row" style="margin-top:8px;">
-            <div class="txt-muted">
-              Bei nicht dringlichen Fragen können Sie, wenn passend, Ihre Klinik kontaktieren.
-            </div>
-            <button class="btn-inline" type="button" onclick="window.location.href='tel:${phone.replace(/[^0-9+]/g, '')}'">
-              <span aria-hidden="true">🏥</span>
-              <span>Klinik anrufen</span>
-            </button>
-          </div>
-          ` : `
-          <p class="muted-helper">
-            Tipp: Tragen Sie in den Einstellungen eine Telefonnummer Ihrer Klinik ein, um hier einen direkten Anruf-Button zu sehen.
-          </p>
-          `}
-        </article>
-      </section>
-    `;
-  }
-
-  function renderWarnItem(title, text) {
-    return `
-      <li class="warn-item">
-        <div class="warn-icon" aria-hidden="true">!</div>
-        <div class="warn-main">
-          <div class="warn-title">${title}</div>
-          <div class="warn-text">${text}</div>
-        </div>
-      </li>
-    `;
-  }
-
-  function renderDocsTab() {
-    const items = state.packList;
-    return `
-      <section aria-label="Dokumente und Packliste">
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">🧳</div>
-              <span>Packliste für die OP</span>
-            </div>
-            <button class="btn-inline-secondary" id="btn-print">
-              <span aria-hidden="true">🖨</span>
-              <span>Drucken</span>
-            </button>
-          </div>
-          <ul class="pack-list">
-            ${Object.entries(items).map(([key, item]) => `
-              <li class="pack-item" data-pack-key="${key}">
-                <button type="button" class="pack-checkbox" data-pack-toggle="${key}" aria-pressed="${item.checked}">
-                  ${item.checked ? '✓' : ''}
-                </button>
-                <div class="pack-text">
-                  <strong>${item.label}</strong>
-                  ${item.note ? `<div class="pack-note">${item.note}</div>` : ''}
-                </div>
-              </li>
-            `).join('')}
-          </ul>
-          <p class="muted-helper">
-            Hinweis: Diese Liste ist allgemein gehalten. Ihre Klinik kann Ihnen zusätzlich eine eigene Packliste geben, an der Sie sich orientieren sollten.
-          </p>
-        </article>
-
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">📄</div>
-              <span>Wichtige Dokumente</span>
-            </div>
-          </div>
-          <div class="tab-content">
-            <ul class="bullets">
-              <li>Bewahren Sie Einverständniserklärungen, Aufklärungsbögen und OP-Termine an einem festen Ort auf.</li>
-              <li>Notieren Sie Fragen an Ihr Behandlungsteam am besten schriftlich, damit Sie beim Gespräch nichts vergessen.</li>
-              <li>Digitale Unterlagen auf dem Handy können hilfreich sein, ersetzen aber keine offiziellen Dokumente.</li>
-              <li>Datei-Uploads in dieser App sind im Prototyp bewusst nicht vorgesehen, um Ihre Daten zu schützen.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">⚙️</div>
-              <span>Einstellungen & Daten</span>
-            </div>
-          </div>
-          <div class="tab-content">
-            <p>
-              In den Einstellungen können Sie das OP-Datum, den OP-Typ und Ihre Kontaktdaten anpassen.
-              Außerdem können Sie hier alle gespeicherten Daten löschen.
-            </p>
-            <button class="btn-inline" type="button" id="btn-open-settings">
-              <span aria-hidden="true">⚙️</span>
-              <span>Zu den Einstellungen</span>
-            </button>
-            <p class="muted-helper">
-              Hinweis: Alle Daten werden nur lokal in diesem Browser gespeichert und können von Ihnen jederzeit zurückgesetzt werden.
-            </p>
-          </div>
-        </article>
-      </section>
-    `;
-  }
-
-  function renderSettingsTab() {
-    return `
-      <section aria-label="Einstellungen">
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">⚙️</div>
-              <span>Einstellungen</span>
-            </div>
-            <span class="badge-soft">Lokal gespeichert</span>
-          </div>
-          <div class="tab-content">
-            <div class="input-row">
-              <label for="set-op-date" class="input-label">OP-Datum</label>
-              <input id="set-op-date" type="date" class="input-field" value="${state.userProfile.opDate || ''}">
-            </div>
-            <div class="input-row">
-              <label for="set-op-type" class="input-label">OP-Typ</label>
-              <select id="set-op-type" class="input-field">
-                <option value="general" ${state.userProfile.opType === 'general' ? 'selected' : ''}>Allgemein (Standard)</option>
-                <option value="knee" ${state.userProfile.opType === 'knee' ? 'selected' : ''}>Kniearthroskopie</option>
-                <option value="hernia" ${state.userProfile.opType === 'hernia' ? 'selected' : ''}>Leistenhernie</option>
-                <option value="gallbladder" ${state.userProfile.opType === 'gallbladder' ? 'selected' : ''}>Gallenblase (laparoskopisch)</option>
-              </select>
-            </div>
-            <div class="input-row">
-              <label for="set-hospital" class="input-label">Krankenhaus / Praxis (optional)</label>
-              <input id="set-hospital" class="input-field" type="text" value="${state.userProfile.hospitalName || ''}">
-            </div>
-            <div class="input-row">
-              <label for="set-phone" class="input-label">Telefonnummer Klinik (optional)</label>
-              <input id="set-phone" class="input-field" type="tel" value="${state.userProfile.hospitalPhone || ''}">
-            </div>
-            <div class="input-row">
-              <label for="set-emergency" class="input-label">Notfallkontakt (Name/Telefon, optional)</label>
-              <input id="set-emergency" class="input-field" type="text" value="${state.userProfile.emergencyContact || ''}">
-            </div>
-            <div class="input-inline" style="margin-top:6px;">
-              <input type="checkbox" id="set-reminders" class="input-checkbox" ${state.userProfile.wantsReminders ? 'checked' : ''}>
-              <label for="set-reminders" class="input-checkbox-label">
-                Ich möchte an Aufgaben erinnert werden (wenn im Browser möglich).
-              </label>
-            </div>
-            <div class="input-inline" style="margin-top:6px;">
-              <input type="checkbox" id="set-theme" class="input-checkbox" ${state.settings.theme === 'light' ? 'checked' : ''}>
-              <label for="set-theme" class="input-checkbox-label">
-                Helles Design verwenden
-              </label>
-            </div>
-            <p class="muted-helper">
-              Hinweis: Alle Angaben werden nur lokal auf diesem Gerät gespeichert und können jederzeit gelöscht werden.
-            </p>
-          </div>
-        </article>
-
-        <article class="block">
-          <div class="block-header-row">
-            <div class="block-title">
-              <div class="block-title-icon" aria-hidden="true">🗑</div>
-              <span>Daten löschen</span>
-            </div>
-          </div>
-          <div class="tab-content">
-            <p>
-              Wenn Sie die App weitergeben oder nicht mehr nutzen möchten, können Sie alle gespeicherten Angaben zurücksetzen.
-            </p>
-            <button class="btn-inline" type="button" id="btn-reset-data">
-              <span aria-hidden="true">🧹</span>
-              <span>Alles zurücksetzen</span>
-            </button>
-          </div>
-        </article>
-      </section>
-    `;
-  }
-
-  function formatDateReadable(iso) {
-    if (!iso) return '-';
-    const d = new Date(iso + 'T00:00:00');
-    const dd = d.getDate().toString().padStart(2, '0');
-    const mm = (d.getMonth() + 1).toString().padStart(2, '0');
-    const yyyy = d.getFullYear();
-    return `${dd}.${mm}.${yyyy}`;
-  }
-
-  function formatRelativeDateLabel(dueIso) {
-    const today = new Date().toLocalISODate();
-    const diff = daysBetween(today, dueIso);
-    if (diff === 0) return 'Heute';
-    if (diff === 1) return 'Morgen';
-    if (diff === -1) return 'Gestern';
-    if (diff > 1) return `In ${diff} Tagen (${formatDateReadable(dueIso)})`;
-    return `Vor ${Math.abs(diff)} Tagen (${formatDateReadable(dueIso)})`;
-  }
-
-  function getUpcomingTasks() {
-    const today = new Date().toLocalISODate();
-    const future = state.tasks.filter(t => {
-      const d = daysBetween(today, t.dueDate);
-      return d !== null && d >= 0 && !t.isDone;
-    });
-    future.sort((a, b) => {
-      const da = new Date(a.dueDate);
-      const db = new Date(b.dueDate);
-      if (da.getTime() !== db.getTime()) return da.getTime() - db.getTime();
-      return a.title.localeCompare(b.title, 'de');
-    });
-    return future.slice(0, 3);
-  }
-
-  function attachAppHandlers() {
-    const root = document.getElementById('app-root');
-    const themeBtn = root.querySelector('#btn-theme-toggle');
-    themeBtn?.addEventListener('click', () => {
-      state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light';
-      saveSettings();
-      render();
-    });
-
-    const navBtns = document.querySelectorAll('.nav-btn');
-    navBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.getAttribute('data-tab');
-        if (!tab) return;
-        if (tab === 'settings') {
-          state.settings.activeTab = 'settings';
-        } else {
-          state.settings.activeTab = tab;
-        }
-        saveSettings();
-        render();
-      });
-    });
-
-    const openTabButtons = root.querySelectorAll('[data-open-tab]');
-    openTabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-open-tab');
-        if (!target) return;
-        state.settings.activeTab = target;
-        saveSettings();
-        render();
-      });
-    });
-
-    const segBtns = root.querySelectorAll('.segmented button');
-    segBtns.forEach(b => {
-      b.addEventListener('click', () => {
-        const f = b.getAttribute('data-filter');
-        if (!f) return;
-        state.settings.timelineFilter = f;
-        saveSettings();
-        render();
-      });
-    });
-
-    const toggleInputs = root.querySelectorAll('[data-task-toggle]');
-    toggleInputs.forEach(input => {
-      input.addEventListener('change', () => {
-        const id = input.getAttribute('data-task-toggle');
-        toggleTaskDone(id);
-      });
-    });
-
-    const noteButtons = root.querySelectorAll('[data-task-note]');
-    noteButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-task-note');
-        openNoteDialog(id);
-      });
-    });
-
-    const infoTabButtons = root.querySelectorAll('[data-info-tab]');
-    infoTabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.getAttribute('data-info-tab');
-        state.settings.infoTab = tab;
-        saveSettings();
-        render();
-      });
-    });
-
-    const packButtons = root.querySelectorAll('[data-pack-toggle]');
-    packButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-pack-toggle');
-        togglePackItem(key);
-      });
-    });
-
-    const btnPrint = root.querySelector('#btn-print');
-    btnPrint?.addEventListener('click', () => {
-      showPrintView();
-    });
-
-    const btnOpenSettings = root.querySelector('#btn-open-settings');
-    btnOpenSettings?.addEventListener('click', () => {
-      state.settings.activeTab = 'settings';
-      saveSettings();
-      render();
-    });
-
-    const btnChangeOpDate = root.querySelector('#btn-change-opdate');
-    btnChangeOpDate?.addEventListener('click', () => {
-      state.settings.activeTab = 'settings';
-      saveSettings();
-      render();
-    });
-
-    if (state.settings.activeTab === 'settings') {
-      const setOpDate = root.querySelector('#set-op-date');
-      const setOpType = root.querySelector('#set-op-type');
-      const setHospital = root.querySelector('#set-hospital');
-      const setPhone = root.querySelector('#set-phone');
-      const setEmergency = root.querySelector('#set-emergency');
-      const setRem = root.querySelector('#set-reminders');
-      const setTheme = root.querySelector('#set-theme');
-      const btnReset = root.querySelector('#btn-reset-data');
-
-      setOpDate?.addEventListener('change', () => {
-        changeOpDate(setOpDate.value);
-      });
-      setOpType?.addEventListener('change', () => {
-        changeOpType(setOpType.value);
-      });
-      setHospital?.addEventListener('input', () => {
-        state.userProfile.hospitalName = setHospital.value.trim();
-        saveProfile();
-      });
-      setPhone?.addEventListener('input', () => {
-        state.userProfile.hospitalPhone = setPhone.value.trim();
-        saveProfile();
-      });
-      setEmergency?.addEventListener('input', () => {
-        state.userProfile.emergencyContact = setEmergency.value.trim();
-        saveProfile();
-      });
-      setRem?.addEventListener('change', () => {
-        state.userProfile.wantsReminders = setRem.checked;
-        saveProfile();
-      });
-      setTheme?.addEventListener('change', () => {
-        state.settings.theme = setTheme.checked ? 'light' : 'dark';
-        saveSettings();
-        render();
-      });
-      btnReset?.addEventListener('click', () => {
-        const sure = confirm('Möchten Sie wirklich alle Daten löschen? Die Timeline und Ihre Angaben werden zurückgesetzt.');
-        if (sure) {
-          resetAllData();
-        }
-      });
-    }
-  }
-
-  function openNoteDialog(taskId) {
-    const dlg = document.getElementById('note-dialog');
-    const textarea = document.getElementById('note-text');
-    const task = state.tasks.find(t => t.id === taskId);
-    state.lastNoteTaskId = taskId;
-    textarea.value = task?.note || '';
-    try {
-      dlg.showModal();
-    } catch {
-      dlg.setAttribute('open', 'open');
-    }
-  }
-
-  function closeNoteDialog(save) {
-    const dlg = document.getElementById('note-dialog');
-    const textarea = document.getElementById('note-text');
-    if (save && state.lastNoteTaskId) {
-      saveTaskNote(state.lastNoteTaskId, textarea.value.trim());
-    }
-    dlg.close();
-    render();
-  }
-
-  function showPrintView() {
-    const printDiv = document.getElementById('print-view');
-    const items = state.packList;
-    const opInfo = getInfoContent()[state.userProfile.opType] || getInfoContent().general;
-
-    printDiv.innerHTML = `
-      <h1>SurgeryPrep · Packliste</h1>
-      <p>OP-Typ: ${opInfo.label}</p>
-      <p>OP-Datum: ${state.userProfile.opDate ? formatDateReadable(state.userProfile.opDate) : 'noch nicht eingetragen'}</p>
-      <h2 style="margin-top:12px;">Mitbringen</h2>
-      <ul>
-        ${Object.values(items).map(item => `<li>${item.label}${item.note ? ' – ' + item.note : ''}</li>`).join('')}
-      </ul>
-      <p style="margin-top:12px; font-size:0.85rem;">
-        Hinweis: Diese Liste ist allgemein. Beachten Sie zusätzliche Hinweise Ihrer Klinik.
-      </p>
-    `;
-    printDiv.style.display = 'block';
-    window.print();
-    setTimeout(() => {
-      printDiv.style.display = 'none';
-    }, 200);
-  }
-
-  window.SurgeryPrep = {
-    closeNoteDialog
-  };
-
-  loadState();
-
-  if (state.userProfile.opDate && !state.tasks.length) {
-    state.tasks = buildTimelineTemplate(state.userProfile.opType);
-    saveTasks();
-  }
-
-  syncTheme();
-  render();
-})();
-</script>
-</body>
-</html>
+              </button
